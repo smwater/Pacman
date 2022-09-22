@@ -13,12 +13,12 @@ public class TitleManager : MonoBehaviour
     
     GameObject titleImage;
 
-    float tilteMovePosition_Y;
+    float titleMovePosition_Y;
     bool isSetTitle;
 
-    public GameObject GameStartButton;
-    public GameObject CreditButton;
-    public GameObject HelpButton;
+    GameObject GameStartButton;
+    GameObject CreditButton;
+    GameObject HelpButton;
     
     GameObject DescriptionUI;
     GameObject CreditUI;
@@ -44,7 +44,6 @@ public class TitleManager : MonoBehaviour
         GameStartButton.SetActive(false);
         CreditButton.SetActive(false);
         HelpButton.SetActive(false);
-        Debug.Log($"{GameStartButton}");
         
         DescriptionUI.SetActive(false);
         CreditUI.SetActive(false);
@@ -53,8 +52,8 @@ public class TitleManager : MonoBehaviour
 
     void Update()
     {
-        TitleMove();
         ShowButton(isSetTitle);
+        TitleMove();
     }
 
     private void TitleMove()
@@ -66,9 +65,10 @@ public class TitleManager : MonoBehaviour
         }
         else
         {
-            tilteMovePosition_Y += tilteMovePosition_Y * titleMoveSpeed;
-            titleImage.transform.Translate(0, tilteMovePosition_Y, 0);
+            titleMovePosition_Y += titleMoveSpeed;
         }
+        
+        titleImage.transform.Translate(0, titleMovePosition_Y, 0);
     }
 
     private void ShowButton(bool isSet)
