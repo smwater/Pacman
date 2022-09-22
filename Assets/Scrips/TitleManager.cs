@@ -58,7 +58,7 @@ public class TitleManager : MonoBehaviour
 
     private void TitleMove()
     {
-        if (titleImage.transform.position.y >= 500f)
+        if (titleImage.transform.position.y >= 450f)
         {
             isSetTitle = true;
             return;
@@ -83,7 +83,7 @@ public class TitleManager : MonoBehaviour
 
     public void ClickStatButton()
     {
-        SceneManager.LoadScene("Main");
+        SceneManager.LoadScene("StageSelect");
     }
 
     public void ClickCreditButton()
