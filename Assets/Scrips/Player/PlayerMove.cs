@@ -6,7 +6,7 @@ public class PlayerMove : MonoBehaviour
 {
     private readonly float _speed = 1f;
     [SerializeField]
-    private float _duration = 0.05f;
+    private float _duration = 0.1f;
     private bool _isMove;
     private Vector3 _destination;
 
