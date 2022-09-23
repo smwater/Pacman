@@ -7,15 +7,14 @@ using UnityEngine.EventSystems;
 
 public class StageScelectManager : MonoBehaviour
 {
-    
+    //원하는 Object를 드래그엔 드랍으로 어떻게 넣을지 몰라서 public 선언
     public TextMeshProUGUI SelectiveQuestions;
     
-    GameObject SelectUI;
+    private GameObject SelectUI;
 
     private void Awake()
     {
         SelectUI = GameObject.Find("SelectUI");
-
     }
 
     private void Start()
@@ -23,16 +22,16 @@ public class StageScelectManager : MonoBehaviour
         SelectUI.SetActive(false);
     }
 
+    public void ClickBackButton()
+    {
+        SceneManager.LoadScene("Title");
+    }
+
+    //버튼의 이름을 리턴하는 함수
     private string GetButtonName()
     {
         string ButtonName = EventSystem.current.currentSelectedGameObject.name;
         return ButtonName;
-    }
-
-
-    public void ClickBackButton()
-    {
-        SceneManager.LoadScene("Title");
     }
 
     public void ClickSelectButton()

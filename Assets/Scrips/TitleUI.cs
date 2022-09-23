@@ -7,26 +7,20 @@ using TMPro;
 
 public class TitleUI : MonoBehaviour
 {
-
     [SerializeField]
-    float titleMoveSpeed;
+    private float titleMoveSpeed;
+    private GameObject titleImage;
+    private float titleMovePosition_Y;
+    private GameObject button;
+    private GameObject helpButton;
     
-    GameObject titleImage;
-
-    float titleMovePosition_Y;
-    bool isSetTitle;
-
-    GameObject button;
-    GameObject helpButton;
-
-    GameObject descriptionUI;
-    GameObject creditUI;
+    //팝업 창
+    private GameObject descriptionUI;
+    private GameObject creditUI;
 
 
     private void Awake()
     {
-        isSetTitle = false;
-
         titleImage = GameObject.Find("TitileImage");
         button = GameObject.Find("Button");
         helpButton = GameObject.Find("HelpButton");
@@ -44,15 +38,15 @@ public class TitleUI : MonoBehaviour
 
     void Update()
     {
-        ShowButton(isSetTitle);
         TitleMove();
     }
 
     private void TitleMove()
     {
+        //타이틀 이미지가 일정 높이 까지 올라 온 뒤 타이틀이 배치됐음을 알림
         if (titleImage.transform.position.y >= 450f)
         {
-            isSetTitle = true;
+            button.SetActive(true);
             return;
         }
         else
@@ -61,14 +55,6 @@ public class TitleUI : MonoBehaviour
         }
         
         titleImage.transform.Translate(0, titleMovePosition_Y, 0);
-    }
-
-    private void ShowButton(bool isSet)
-    {
-        if (isSet == true)
-        {
-            button.SetActive(true);
-        }
     }
 
     public void ClickStatButton()
@@ -106,7 +92,6 @@ public class TitleUI : MonoBehaviour
     {
         SceneManager.LoadScene("Ranking");
     }
-
 
     public void ClickExitButton()
     {
