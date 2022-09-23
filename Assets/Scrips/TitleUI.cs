@@ -7,54 +7,58 @@ using TMPro;
 
 public class TitleUI : MonoBehaviour
 {
+    
+
     [SerializeField]
-    private float titleMoveSpeed;
-    private GameObject titleImage;
-    private float titleMovePosition_Y;
-    private GameObject button;
-    private GameObject helpButton;
+    private float _titleSpeed;
+    [SerializeField]
+    private float _stopPosition;
+
+    private GameObject _titleImage;
+    private float _moveTitlePositionY;
+    private GameObject _buttons;
+    private GameObject _helpButton;
     
     //팝업 창
-    private GameObject descriptionUI;
-    private GameObject creditUI;
-
+    private GameObject _descriptionUI;
+    private GameObject _creditUI;
 
     private void Awake()
     {
-        titleImage = GameObject.Find("TitileImage");
-        button = GameObject.Find("Button");
-        helpButton = GameObject.Find("HelpButton");
+        _titleImage = GameObject.Find("TitileImage");
+        _buttons = GameObject.Find("Buttons");
+        _helpButton = GameObject.Find("HelpButton");
         
-        descriptionUI = GameObject.Find("DescriptionUI");
-        creditUI = GameObject.Find("CreditUI");
+        _descriptionUI = GameObject.Find("DescriptionUI");
+        _creditUI = GameObject.Find("CreditUI");
     }
 
     void Start()
     {
-        button.SetActive(false);
-        descriptionUI.SetActive(false);
-        creditUI.SetActive(false);
+        _buttons.SetActive(false);
+        _descriptionUI.SetActive(false);
+        _creditUI.SetActive(false);
     }
 
     void Update()
     {
-        TitleMove();
+        MoveTitle();
     }
 
-    private void TitleMove()
+    private void MoveTitle()
     {
         //타이틀 이미지가 일정 높이 까지 올라 온 뒤 타이틀이 배치됐음을 알림
-        if (titleImage.transform.position.y >= 450f)
+        if (_titleImage.transform.position.y >= _stopPosition)
         {
-            button.SetActive(true);
+            _buttons.SetActive(true);
             return;
         }
         else
         {
-            titleMovePosition_Y += titleMoveSpeed;
+            _moveTitlePositionY += _titleSpeed;
         }
         
-        titleImage.transform.Translate(0, titleMovePosition_Y, 0);
+        _titleImage.transform.Translate(0, _moveTitlePositionY, 0);
     }
 
     public void ClickStatButton()
@@ -64,27 +68,27 @@ public class TitleUI : MonoBehaviour
 
     public void ClickCreditButton()
     {
-        creditUI.SetActive(true);
+        _creditUI.SetActive(true);
     }
 
     public void ClickHelpButton()
     {
-        if (creditUI.activeSelf != true)
+        if (_creditUI.activeSelf != true)
         {
-            descriptionUI.SetActive(true);  
+            _descriptionUI.SetActive(true);  
         }
     }
 
     public void ClickCloseButton()
     {
-        if (creditUI.gameObject.activeSelf == true)
+        if (_creditUI.gameObject.activeSelf == true)
         {
-            creditUI.SetActive(false);
-            helpButton.SetActive(true);
+            _creditUI.SetActive(false);
+            _helpButton.SetActive(true);
         }
-        else if(descriptionUI.gameObject.activeSelf == true)
+        else if(_descriptionUI.gameObject.activeSelf == true)
         {
-            descriptionUI.SetActive(false);
+            _descriptionUI.SetActive(false);
         }
     }
 

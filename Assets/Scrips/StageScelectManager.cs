@@ -10,16 +10,16 @@ public class StageScelectManager : MonoBehaviour
     //원하는 Object를 드래그엔 드랍으로 어떻게 넣을지 몰라서 public 선언
     public TextMeshProUGUI SelectiveQuestions;
     
-    private GameObject SelectUI;
+    private GameObject _selectUI;
 
     private void Awake()
     {
-        SelectUI = GameObject.Find("SelectUI");
+        _selectUI = GameObject.Find("SelectUI");
     }
 
     private void Start()
     {
-        SelectUI.SetActive(false);
+        _selectUI.SetActive(false);
     }
 
     public void ClickBackButton()
@@ -30,13 +30,13 @@ public class StageScelectManager : MonoBehaviour
     //버튼의 이름을 리턴하는 함수
     private string GetButtonName()
     {
-        string ButtonName = EventSystem.current.currentSelectedGameObject.name;
-        return ButtonName;
+        string buttonName = EventSystem.current.currentSelectedGameObject.name;
+        return buttonName;
     }
 
     public void ClickSelectButton()
     {
-        SelectUI.SetActive(true);
+        _selectUI.SetActive(true);
         SelectiveQuestions.text = $"Do you want to select that stage?({GetButtonName()})";
     }
 
@@ -47,7 +47,7 @@ public class StageScelectManager : MonoBehaviour
 
     public void ClickNoButton()
     {
-        SelectUI.SetActive(false);
+        _selectUI.SetActive(false);
     }
 
 }
