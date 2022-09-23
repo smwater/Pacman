@@ -12,32 +12,29 @@ public class PlayerInput : MonoBehaviour
 
     private void Update()
     {
+        // 입력이 다음 프레임까지 영향을 주지 않기 위해 리셋
         GoUp = GoDown = GoLeft = GoRight = UseSkill = false;
 
-        if (Input.GetKeyDown(KeyCode.UpArrow))
+        // 각각의 키 입력
+        if (Input.GetKey(KeyCode.UpArrow))
         { 
             GoUp = true;
-            Debug.Log("UP");
         }
-        if (Input.GetKeyDown(KeyCode.DownArrow))
+        if (Input.GetKey(KeyCode.DownArrow))
         {
             GoDown = true;
-            Debug.Log("DOWN");
         }
-        if (Input.GetKeyDown(KeyCode.LeftArrow))
+        if (Input.GetKey(KeyCode.LeftArrow))
         {
             GoLeft = true;
-            Debug.Log("LEFT");
         }
-        if (Input.GetKeyDown(KeyCode.RightArrow))
+        if (Input.GetKey(KeyCode.RightArrow))
         {
             GoRight = true;
-            Debug.Log("RIGHT");
         }
         if (Input.GetKeyDown(KeyCode.Space))
         {
             UseSkill = true;
-            Debug.Log("SKILL");
         }
     }
 }
