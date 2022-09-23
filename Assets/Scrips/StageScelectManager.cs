@@ -7,7 +7,6 @@ using UnityEngine.EventSystems;
 
 public class StageScelectManager : MonoBehaviour
 {
-    //원하는 Object를 드래그엔 드랍으로 어떻게 넣을지 몰라서 public 선언
     public TextMeshProUGUI SelectiveQuestions;
     
     private GameObject _selectUI;
