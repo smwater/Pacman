@@ -7,18 +7,17 @@ using TMPro;
 
 public class TitleUI : MonoBehaviour
 {
-    
-
     [SerializeField]
-    private float _titleSpeed;
+    private float _titleSpeed = 0.001f;
     [SerializeField]
-    private float _stopPosition;
+    private float _stopPosition = 450f;
 
     private GameObject _titleImage;
     private float _moveTitlePositionY;
     private GameObject _buttons;
     private GameObject _helpButton;
-    
+    private bool _isSetTitle;
+
     //ÆË¾÷ Ã¢
     private GameObject _descriptionUI;
     private GameObject _creditUI;
@@ -38,11 +37,16 @@ public class TitleUI : MonoBehaviour
         _buttons.SetActive(false);
         _descriptionUI.SetActive(false);
         _creditUI.SetActive(false);
+
+        _isSetTitle = false;
     }
 
     void Update()
     {
-        MoveTitle();
+        if(_isSetTitle == false)
+        {
+            MoveTitle();
+        }
     }
 
     private void MoveTitle()
@@ -51,13 +55,14 @@ public class TitleUI : MonoBehaviour
         if (_titleImage.transform.position.y >= _stopPosition)
         {
             _buttons.SetActive(true);
+            _isSetTitle = true;
             return;
         }
         else
         {
             _moveTitlePositionY += _titleSpeed;
         }
-        
+
         _titleImage.transform.Translate(0, _moveTitlePositionY, 0);
     }
 

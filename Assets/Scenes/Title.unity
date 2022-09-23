@@ -1604,7 +1604,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1406959235}
   m_Layer: 5
-  m_Name: Button
+  m_Name: Buttons
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1689,7 +1689,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ebc5ec099af9a4147a4cd9b0bb0fa962, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  titleMoveSpeed: 0.001
+  _titleSpeed: 0.001
+  _stopPosition: 450
 --- !u!1 &1512681068
 GameObject:
   m_ObjectHideFlags: 0
