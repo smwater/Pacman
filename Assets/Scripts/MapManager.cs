@@ -39,6 +39,10 @@ public class MapManager : SingletonBehaviour<MapManager>
     private static float _posY = -19f;
     private readonly Vector2 _startPosition = new Vector2(_posX, _posY);
 
+    private float _randomX;
+    private float _randomY;
+    public GameObject _randomTarget;
+
     private void Start()
     {
         // 오브젝트 풀링을 쓰기 위해 벽 인스턴스를 충분히 만듦
@@ -52,6 +56,7 @@ public class MapManager : SingletonBehaviour<MapManager>
 
         MapLoad();
         MapDraw();
+        SpawnRandomTarget(); 
     }
 
     /// <summary>
@@ -150,4 +155,38 @@ public class MapManager : SingletonBehaviour<MapManager>
 
         return true;
     }
+    
+    /// <summary>
+    /// 벽이 없는 렌덤한 지점에 타켓을 스폰시키는 메소드 
+    /// 임의로 위치값을 -15~15로 주었는데 나중에 수정 필요 
+    /// </summary>
+    private void SpawnRandomTarget()
+    {
+        Color color = _randomTarget.GetComponentInChildren<SpriteRenderer>().color = new Color(0, 0, 0, 0);
+
+        _randomX = Random.Range(-15, 15);
+        _randomY = Random.Range(-15, 15);
+
+        Vector2 randomPos = new Vector2(_randomX, _randomY);
+
+        if (CheckDirectionToGo(randomPos, Direction.None))
+        {
+            _randomTarget.transform.Translate(_randomX, _randomY, 0);
+        }
+        else
+        {
+            SpawnRandomTarget();
+        }
+
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Ghost") || collision.CompareTag("Wall"))
+        {
+            SpawnRandomTarget();
+        }
+    }
+
+
 }
