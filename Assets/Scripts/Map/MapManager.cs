@@ -33,10 +33,8 @@ public class MapManager : SingletonBehaviour<MapManager>
     private readonly int _wallMaxCount = MAP_SIZE_ROW * MAP_SIZE_COLUMN;
     private GameObject[] _walls;
 
-    [SerializeField]
-    private static float _posX = -19f;
-    [SerializeField]
-    private static float _posY = -19f;
+    private static readonly float _posX = -19f;
+    private static readonly float _posY = -19f;
     private readonly Vector2 _startPosition = new Vector2(_posX, _posY);
 
     private void Start()
