@@ -159,9 +159,12 @@ public class MapManager : SingletonBehaviour<MapManager>
     /// <summary>
     /// 벽이 없는 렌덤한 지점에 타켓을 스폰시키는 메소드 
     /// 임의로 위치값을 -15~15로 주었는데 나중에 수정 필요 
+    /// 유령 객체에서 호출해야 하므로 public으로 설정
     /// </summary>
-    private void SpawnRandomTarget()
+    public void SpawnRandomTarget()
     {
+        _randomTarget.tag = "RandomTarget";
+
         Color color = _randomTarget.GetComponentInChildren<SpriteRenderer>().color = new Color(0, 0, 0, 0);
 
         _randomX = Random.Range(-15, 15);
@@ -179,14 +182,4 @@ public class MapManager : SingletonBehaviour<MapManager>
         }
 
     }
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.CompareTag("Ghost") || collision.CompareTag("Wall"))
-        {
-            SpawnRandomTarget();
-        }
-    }
-
-
 }
