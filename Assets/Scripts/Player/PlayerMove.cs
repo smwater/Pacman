@@ -4,44 +4,20 @@ using UnityEngine;
 
 public class PlayerMove : MonoBehaviour
 {
-    // 현재 플레이어가 어느 방향을 향했는지 저장하는 열거형 타입 변수
-    public enum Direction
-    {
-        Up,
-        Down,
-        Left,
-        Right,
-        None
-    }
-
-    private Direction _prensent = Direction.None;
     private const float ERROR_RANGE = 0.01f;
 
+    private bool _directionToggle;
     [SerializeField]
     private float _speed = 1f;
     [SerializeField]
     private float _duration = 0.1f;
-    private bool _directionToggle;
     private Vector3 _destination;
-    private PlayerInput _input;
 
-    private GameObject[] _sensors;
-    private int _sensorCount;
-    private PlayerNavigation[] _playerNavigations;
+    private PlayerInput _input;
 
     private void Awake()
     {
         _input = GetComponent<PlayerInput>();
-
-        // 플레이어 하위 오브젝트에 존재하는 센서와 센서에 존재하는 컴포넌트를 연결
-        _sensorCount = transform.childCount;
-        _sensors = new GameObject[_sensorCount];
-        _playerNavigations = new PlayerNavigation[_sensorCount];
-        for (int i = 0; i < _sensorCount; i++)
-        {
-            _sensors[i] = transform.GetChild(i).gameObject;
-            _playerNavigations[i] = _sensors[i].GetComponent<PlayerNavigation>();
-        }
     }
 
     private void Update()
@@ -57,59 +33,71 @@ public class PlayerMove : MonoBehaviour
         if (_input.GoUp)
         {
             DirectionUp();
-            _directionToggle = true;
         }
         if (_input.GoDown)
         {
             DirectionDown();
-            _directionToggle = true;
         }
         if (_input.GoLeft)
         {
             DirectionLeft();
-            _directionToggle = true;
         }
         if (_input.GoRight)
         {
             DirectionRight();
-            _directionToggle = true;
         }
         if (_input.UseSkill)
         {
             Debug.Log("스킬은 아직 미구현");
-        }
-
-        // 방향이 지정되었을 때만 벽을 감지
-        if (_prensent != Direction.None)
-        {
-            UseNavigation();
         }
     }
 
     // 방향 지정 메서드
     private void DirectionUp()
     {
-        _prensent = Direction.Up;
+        // 지정한 방향으로 나아갈 수 있는지 확인
+        if (!MapManager.Instance.CheckDirectionToGo(transform.position, MapManager.Direction.Up))
+        {
+            return;
+        }
+
+        // 애니메이션 세팅도 여기서 할 예정
         // 방향에 따라 다른 좌표를 지정
         _destination = transform.position + new Vector3(0f, _speed, 0f);
+        _directionToggle = true;
     }
 
     private void DirectionDown()
     {
-        _prensent = Direction.Down;
+        if (!MapManager.Instance.CheckDirectionToGo(transform.position, MapManager.Direction.Down))
+        {
+            return;
+        }
+
         _destination = transform.position + new Vector3(0f, -_speed, 0f);
+        _directionToggle = true;
     }
 
     private void DirectionLeft()
     {
-        _prensent = Direction.Left;
+        if (!MapManager.Instance.CheckDirectionToGo(transform.position, MapManager.Direction.Left))
+        {
+            return;
+        }
+
         _destination = transform.position + new Vector3(-_speed, 0f, 0f);
+        _directionToggle = true;
     }
 
     private void DirectionRight()
     {
-        _prensent = Direction.Right;
+        if (!MapManager.Instance.CheckDirectionToGo(transform.position, MapManager.Direction.Right))
+        {
+            return;
+        }
+
         _destination = transform.position + new Vector3(_speed, 0f, 0f);
+        _directionToggle = true;
     }
 
     /// <summary>
@@ -129,20 +117,5 @@ public class PlayerMove : MonoBehaviour
             _directionToggle = false;
         }
         yield return null;
-    }
-
-    /// <summary>
-    /// 지정된 방향에 벽이 존재하는지 판단하고,
-    /// 벽이 존재한다면 목적지 좌표를 리셋한다.
-    /// </summary>
-    private void UseNavigation()
-    {
-        if (!_playerNavigations[(int)_prensent].AnnounceIsWall())
-        {
-            return;
-        }
-
-        _destination = transform.position;
-        _directionToggle = false;
     }
 }
