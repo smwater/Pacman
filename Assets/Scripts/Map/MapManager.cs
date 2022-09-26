@@ -2,27 +2,27 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// Map 배열에 들어갈 수 있는 정보를 저장하는 열거형 변수
+public enum MapTile
+{
+    None,
+    Wall,
+    PlayerSpawnPoint,
+    GhostSpawnPoint,
+    GhostHouseDoor
+}
+
+public enum Direction
+{
+    None,
+    Up,
+    Down,
+    Left,
+    Right
+}
+
 public class MapManager : SingletonBehaviour<MapManager>
 {
-    // Map 배열에 들어갈 수 있는 정보를 저장하는 열거형 변수
-    public enum MapTile
-    {
-        None,
-        Wall,
-        PlayerSpawnPoint,
-        GhostSpawnPoint,
-        GhostHouseDoor
-    }
-
-    public enum Direction
-    {
-        None,
-        Up,
-        Down,
-        Left,
-        Right
-    }
-
     public MapTile[,] Map = new MapTile[MAP_SIZE_ROW, MAP_SIZE_COLUMN];
     public const int MAP_SIZE_ROW = 30;
     public const int MAP_SIZE_COLUMN = 30;
