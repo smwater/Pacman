@@ -181,7 +181,7 @@ public class MapManager : SingletonBehaviour<MapManager>
     /// </summary>
     /// <param name="currentPosition">현재 위치</param>
     /// <param name="direction">지정 방향</param>
-    /// <returns>벽이 없다면 true, 벽이 있다면 false를 반환</returns>
+    /// <returns>막히지 않았다면 true, 막혀 있다면 false를 반환</returns>
     public bool CheckDirectionToGo(Vector2 currentPosition, Direction direction)
     {
         // 현재 위치가 배열에서 어디를 가리키는지 알기 위해 계산
@@ -207,8 +207,8 @@ public class MapManager : SingletonBehaviour<MapManager>
                 break;
         }
 
-        // 해당 좌표에 벽이 있는지 여부에 따라 반환
-        if (Map[y * MAP_SIZE_ROW + x] == MapTile.Wall)
+        // 해당 좌표에 벽이나 유령의 집 문이 있는지 여부에 따라 반환
+        if (Map[y * MAP_SIZE_ROW + x] == MapTile.Wall || Map[y * MAP_SIZE_ROW + x] == MapTile.GhostHouseDoor)
         {
             return false;
         }
