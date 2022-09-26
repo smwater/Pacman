@@ -32,6 +32,9 @@ public class GhostAI : MonoBehaviour
     private Vector3 _startPosition;
     private bool _isDepart = false;
 
+    private int _walkCount = 0;
+    private int _randomNum = 1;
+
     private bool _foundPlayer;
 
     private void Awake()
@@ -121,15 +124,28 @@ public class GhostAI : MonoBehaviour
             State = GhostState.Chase;
         }
 
+        // 일정 걸음 수 이상이 되면 방향 전환
+        if (_walkCount >= _randomNum)
+        {
+            _randomNum = Random.Range(5, 9);
+            _walkCount = 0;
+
+            NowDirection = (Direction)Random.Range(1, 5);
+        }
+
         // 벽에 부딪히면 방향을 전환
         if (MapManager.Instance.CheckDirectionToGo(transform.position, NowDirection))
         {
             Move(NowDirection);
+            _walkCount++;
         }
         else
         {
             NowDirection = (Direction)Random.Range(1, 5);
             _destination = transform.position;
+
+            // 벽에 부딪히면 카운트 초기화
+            _walkCount = 0;
         }
 
         yield return new WaitForSeconds(1);
