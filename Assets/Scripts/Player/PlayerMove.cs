@@ -55,6 +55,16 @@ public class PlayerMove : MonoBehaviour
     // 방향 지정 메서드
     private void DirectionUp()
     {
+        // 플레이어가 범위 밖으로 벗어나려고 하면
+        if (transform.position.y == MapManager.MAP_SIZE_ROW - 1)
+        {
+            // 반대쪽 범위 바깥에서 맵 안으로 들어오는 것처럼 보이게 한다.
+            transform.position = new Vector3(transform.position.x, -1f, 0f);
+            _destination = transform.position + new Vector3(0f, _speed, 0f);
+            _directionToggle = true;
+            return;
+        }
+
         // 지정한 방향으로 나아갈 수 있는지 확인
         if (!MapManager.Instance.CheckDirectionToGo(transform.position, MapManager.Direction.Up))
         {
@@ -69,6 +79,14 @@ public class PlayerMove : MonoBehaviour
 
     private void DirectionDown()
     {
+        if (transform.position.y == 0)
+        {
+            transform.position = new Vector3(transform.position.x, MapManager.MAP_SIZE_ROW, 0f);
+            _destination = transform.position + new Vector3(0f, -_speed, 0f);
+            _directionToggle = true;
+            return;
+        }
+
         if (!MapManager.Instance.CheckDirectionToGo(transform.position, MapManager.Direction.Down))
         {
             return;
@@ -80,6 +98,14 @@ public class PlayerMove : MonoBehaviour
 
     private void DirectionLeft()
     {
+        if (transform.position.x == 0)
+        {
+            transform.position = new Vector3(MapManager.MAP_SIZE_COLUMN, transform.position.y, 0f);
+            _destination = transform.position + new Vector3(-_speed, 0f, 0f);
+            _directionToggle = true;
+            return;
+        }
+
         if (!MapManager.Instance.CheckDirectionToGo(transform.position, MapManager.Direction.Left))
         {
             return;
@@ -91,6 +117,14 @@ public class PlayerMove : MonoBehaviour
 
     private void DirectionRight()
     {
+        if (transform.position.x == MapManager.MAP_SIZE_COLUMN - 1)
+        {
+            transform.position = new Vector3(-1f, transform.position.y, 0f);
+            _destination = transform.position + new Vector3(_speed, 0f, 0f);
+            _directionToggle = true;
+            return;
+        }
+
         if (!MapManager.Instance.CheckDirectionToGo(transform.position, MapManager.Direction.Right))
         {
             return;
