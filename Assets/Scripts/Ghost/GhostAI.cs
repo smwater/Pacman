@@ -71,8 +71,8 @@ public class GhostAI : MonoBehaviour
         {
             _destination = _startPosition;
             transform.position = _startPosition;
+            _isDepart = false;
             State = GhostState.Depart;
-            StartCoroutine(Depart());
         }
     }
 
