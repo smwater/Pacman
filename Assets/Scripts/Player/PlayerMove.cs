@@ -68,7 +68,7 @@ public class PlayerMove : MonoBehaviour
         }
 
         // 지정한 방향으로 나아갈 수 있는지 확인
-        if (!MapManager.Instance.CheckDirectionToGo(transform.position, MapManager.Direction.Up))
+        if (!MapManager.Instance.CheckDirectionToGo(transform.position, Direction.Up))
         {
             return;
         }
@@ -89,7 +89,7 @@ public class PlayerMove : MonoBehaviour
             return;
         }
 
-        if (!MapManager.Instance.CheckDirectionToGo(transform.position, MapManager.Direction.Down))
+        if (!MapManager.Instance.CheckDirectionToGo(transform.position, Direction.Down))
         {
             return;
         }
@@ -108,7 +108,7 @@ public class PlayerMove : MonoBehaviour
             return;
         }
 
-        if (!MapManager.Instance.CheckDirectionToGo(transform.position, MapManager.Direction.Left))
+        if (!MapManager.Instance.CheckDirectionToGo(transform.position, Direction.Left))
         {
             return;
         }
@@ -127,7 +127,7 @@ public class PlayerMove : MonoBehaviour
             return;
         }
 
-        if (!MapManager.Instance.CheckDirectionToGo(transform.position, MapManager.Direction.Right))
+        if (!MapManager.Instance.CheckDirectionToGo(transform.position, Direction.Right))
         {
             return;
         }
