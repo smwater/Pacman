@@ -22,6 +22,7 @@ public class PlayerMove : MonoBehaviour
 
     private void Update()
     {
+
         // 방향이 지정되었을 때만 이동
         if (_directionToggle)
         {
@@ -50,6 +51,7 @@ public class PlayerMove : MonoBehaviour
         {
             Debug.Log("스킬은 아직 미구현");
         }
+
     }
 
     // 방향 지정 메서드
@@ -141,7 +143,7 @@ public class PlayerMove : MonoBehaviour
     {
         // 지정 좌표로 부드럽게 이동
         transform.position = Vector3.Lerp(transform.position, _destination, _duration);
-
+        
         // 연속해서 이동하다보면 지정 좌표에 도착하지 않은 상태에서
         // 다음 좌표로 이동하는 일이 생기는데 이렇게 되면 정수 단위 m로 이동할 수 없다.
         if (Vector3.Distance(transform.position, _destination) <= ERROR_RANGE)
@@ -151,5 +153,11 @@ public class PlayerMove : MonoBehaviour
             _directionToggle = false;
         }
         yield return null;
+    }
+    //토글을 끄는 public 함수
+    //direction을 0,0,0으로 하는 public 함수
+    public void OffDirectionToggle()
+    {
+        _directionToggle = false;
     }
 }
