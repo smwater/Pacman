@@ -23,7 +23,7 @@ public class MapManager : SingletonBehaviour<MapManager>
         Right
     }
 
-    public MapTile[] Map = new MapTile[MAP_SIZE_ROW * MAP_SIZE_COLUMN];
+    public MapTile[,] Map = new MapTile[MAP_SIZE_ROW, MAP_SIZE_COLUMN];
     private const int MAP_SIZE_ROW = 30;
     private const int MAP_SIZE_COLUMN = 30;
 
@@ -81,83 +81,83 @@ public class MapManager : SingletonBehaviour<MapManager>
             {
                 if ((r == 0 || r == MAP_SIZE_ROW - 1) && c != 14 && c != 15)
                 {
-                    Map[r * MAP_SIZE_ROW + c] = MapTile.Wall;
+                    Map[r, c] = MapTile.Wall;
                 }
                 if ((c == 0 || c == MAP_SIZE_COLUMN - 1) && r != 14 && r != 15)
                 {
-                    Map[r * MAP_SIZE_ROW + c] = MapTile.Wall;
+                    Map[r, c] = MapTile.Wall;
                 }
                 if (((r >= 2 && r <= 3) || (r >= 5 && r <= 7) || (r >= 9 && r <= 10)) && c >= 2 && c <= 3)
                 {
-                    Map[r * MAP_SIZE_ROW + c] = MapTile.Wall;
+                    Map[r, c] = MapTile.Wall;
                 }
                 if (((r >= 2 && r <= 3) || (r >= 5 && r <= 7) || (r >= 9 && r <= 10)) && c >= 7 && c <= 8)
                 {
-                    Map[r * MAP_SIZE_ROW + c] = MapTile.Wall;
+                    Map[r, c] = MapTile.Wall;
                 }
                 if (((r >= 2 && r <= 3) || (r >= 5 && r <= 7) || (r >= 9 && r <= 10)) && c >= 21 && c <= 22)
                 {
-                    Map[r * MAP_SIZE_ROW + c] = MapTile.Wall;
+                    Map[r, c] = MapTile.Wall;
                 }
                 if (((r >= 2 && r <= 3) || (r >= 5 && r <= 7) || (r >= 9 && r <= 10)) && c >= 26 && c <= 27)
                 {
-                    Map[r * MAP_SIZE_ROW + c] = MapTile.Wall;
+                    Map[r, c] = MapTile.Wall;
                 }
                 if ((c == 5 || c == 13 || c == 16 || c == 24) && r >= 3 && r <= 9)
                 {
-                    Map[r * MAP_SIZE_ROW + c] = MapTile.Wall;
+                    Map[r, c] = MapTile.Wall;
                 }
                 if (c == 12 && (r == 3 || r == 9))
                 {
-                    Map[r * MAP_SIZE_ROW + c] = MapTile.Wall;
+                    Map[r, c] = MapTile.Wall;
                 }
                 if (c == 17 && (r == 3 || r == 9))
                 {
-                    Map[r * MAP_SIZE_ROW + c] = MapTile.Wall;
+                    Map[r, c] = MapTile.Wall;
                 }
                 if (c == 14 && r == 10)
                 {
-                    Map[r * MAP_SIZE_ROW + c] = MapTile.PlayerSpawnPoint;
+                    Map[r, c] = MapTile.PlayerSpawnPoint;
                 }
                 if (r == 13 && ((c >= 0 && c <= 6) || (c >= 11 && c <= 18) || (c >= 23 && c <= MAP_SIZE_COLUMN - 1)))
                 {
-                    Map[r * MAP_SIZE_ROW + c] = MapTile.Wall;
+                    Map[r, c] = MapTile.Wall;
                 }
                 if (r == 16 && ((c >= 0 && c <= 6) || (c >= 23 && c <= MAP_SIZE_COLUMN - 1)))
                 {
-                    Map[r * MAP_SIZE_ROW + c] = MapTile.Wall;
+                    Map[r, c] = MapTile.Wall;
                 }
                 if ((c == 11 || c == 18) && r >= 13 && r <= 17)
                 {
-                    Map[r * MAP_SIZE_ROW + c] = MapTile.Wall;
+                    Map[r, c] = MapTile.Wall;
                 }
                 if (c == 13 && r == 15)
                 {
-                    Map[r * MAP_SIZE_ROW + c] = MapTile.GhostSpawnPoint;
+                    Map[r, c] = MapTile.GhostSpawnPoint;
                 }
                 if (r == 17 && ((c >= 11 && c <= 13) || (c >= 16 && c <= 18)))
                 {
-                    Map[r * MAP_SIZE_ROW + c] = MapTile.Wall;
+                    Map[r, c] = MapTile.Wall;
                 }
                 if (r == 17 && c >= 14 && c <= 15)
                 {
-                    Map[r * MAP_SIZE_ROW + c] = MapTile.GhostHouseDoor;
+                    Map[r, c] = MapTile.GhostHouseDoor;
                 }
                 if (r == 18 && ((c >= 3 && c <= 7) || (c >= 22 && c <= 26)))
                 {
-                    Map[r * MAP_SIZE_ROW + c] = MapTile.Wall;
+                    Map[r, c] = MapTile.Wall;
                 }
                 if (r == 27 && ((c >= 3 && c <= 7) || (c >= 22 && c <= 26)))
                 {
-                    Map[r * MAP_SIZE_ROW + c] = MapTile.Wall;
+                    Map[r, c] = MapTile.Wall;
                 }
                 if ((c == 14 || c == 15) && r >= 19 && r <= 27)
                 {
-                    Map[r * MAP_SIZE_ROW + c] = MapTile.Wall;
+                    Map[r, c] = MapTile.Wall;
                 }
                 if (((c == 2 || c == 3) || (c >= 5 && c <= 9) || (c >= 20 && c <= 24) || (c == 26 || c == 27)) && r >= 21 && r <= 24)
                 {
-                    Map[r * MAP_SIZE_ROW + c] = MapTile.Wall;
+                    Map[r, c] = MapTile.Wall;
                 }
             }
         }
@@ -175,21 +175,21 @@ public class MapManager : SingletonBehaviour<MapManager>
         {
             for (int c = 0; c < MAP_SIZE_COLUMN; c++)
             {
-                if (Map[r * MAP_SIZE_ROW + c] == MapTile.Wall)
+                if (Map[r, c] == MapTile.Wall)
                 {
                     _walls[usedWallCount].SetActive(true);
                     _walls[usedWallCount].transform.Translate(new Vector2(c, r));
                     usedWallCount++;
                     continue;
                 }
-                if (Map[r * MAP_SIZE_ROW + c] == MapTile.GhostHouseDoor)
+                if (Map[r, c] == MapTile.GhostHouseDoor)
                 {
                     _ghostHouseDoors[usedDoorCount].SetActive(true);
                     _ghostHouseDoors[usedDoorCount].transform.Translate(new Vector2(c, r));
                     usedDoorCount++;
                     continue;
                 }
-                if (Map[r * MAP_SIZE_ROW + c] == MapTile.PlayerSpawnPoint)
+                if (Map[r, c] == MapTile.PlayerSpawnPoint)
                 {
                     _player.transform.Translate(new Vector2(c, r));
                 }
@@ -229,7 +229,7 @@ public class MapManager : SingletonBehaviour<MapManager>
         }
 
         // 해당 좌표에 벽이나 유령의 집 문이 있는지 여부에 따라 반환
-        if (Map[y * MAP_SIZE_ROW + x] == MapTile.Wall || Map[y * MAP_SIZE_ROW + x] == MapTile.GhostHouseDoor)
+        if (Map[y, x] == MapTile.Wall || Map[y, x] == MapTile.GhostHouseDoor)
         {
             return false;
         }
