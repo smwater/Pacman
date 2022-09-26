@@ -43,6 +43,11 @@ public class MapManager : SingletonBehaviour<MapManager>
     private float _randomY;
     public GameObject _randomTarget;
 
+    private void Awake()
+    {
+        SpawnRandomTarget();
+    }
+
     private void Start()
     {
         // 오브젝트 풀링을 쓰기 위해 벽 인스턴스를 충분히 만듦
@@ -56,7 +61,7 @@ public class MapManager : SingletonBehaviour<MapManager>
 
         MapLoad();
         MapDraw();
-        SpawnRandomTarget(); 
+        
     }
 
     /// <summary>
@@ -163,9 +168,9 @@ public class MapManager : SingletonBehaviour<MapManager>
     /// </summary>
     public void SpawnRandomTarget()
     {
-        _randomTarget.tag = "RandomTarget";
+        //_randomTarget.tag = "RandomTarget";
 
-        Color color = _randomTarget.GetComponentInChildren<SpriteRenderer>().color = new Color(0, 0, 0, 0);
+        //Color color = _randomTarget.GetComponentInChildren<SpriteRenderer>().color = new Color(0, 0, 0, 0);
 
         _randomX = Random.Range(-15, 15);
         _randomY = Random.Range(-15, 15);
@@ -180,6 +185,5 @@ public class MapManager : SingletonBehaviour<MapManager>
         {
             SpawnRandomTarget();
         }
-
     }
 }
