@@ -7,10 +7,6 @@ using UnityEngine.SceneManagement;
 public class GameManager : SingletonBehaviour<GameManager>
 {
     public UnityEvent PlayerDead;
+    //이벤트가 있으나 미구현
     public UnityEvent GameOver;
-
-    private void RoadRankingScene()
-    {
-        SceneManager.LoadScene("Ranking");
-    }
 }
