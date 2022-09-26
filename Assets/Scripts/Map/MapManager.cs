@@ -24,8 +24,8 @@ public class MapManager : SingletonBehaviour<MapManager>
     }
 
     public MapTile[,] Map = new MapTile[MAP_SIZE_ROW, MAP_SIZE_COLUMN];
-    private const int MAP_SIZE_ROW = 30;
-    private const int MAP_SIZE_COLUMN = 30;
+    public const int MAP_SIZE_ROW = 30;
+    public const int MAP_SIZE_COLUMN = 30;
 
     public GameObject PlayerPrefab;
     private GameObject _player;
@@ -227,6 +227,8 @@ public class MapManager : SingletonBehaviour<MapManager>
             default:
                 break;
         }
+
+
 
         // 해당 좌표에 벽이나 유령의 집 문이 있는지 여부에 따라 반환
         if (Map[y, x] == MapTile.Wall || Map[y, x] == MapTile.GhostHouseDoor)
