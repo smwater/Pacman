@@ -15,6 +15,7 @@ public enum GhostState
 public class GhostAI : MonoBehaviour
 {
     public GhostState State;
+    public GhostState PrevState = GhostState.None;
     public Direction NowDirection;
     public Direction PrevDirection = Direction.None;
 
@@ -27,16 +28,16 @@ public class GhostAI : MonoBehaviour
     private float _duration = 0.1f;
     private Vector3 _destination;
 
+    private bool _isDepart = false;
+
     private bool _foundPlayer;
 
     private Vector3 _startPosition;
 
     private void Awake()
     {
-        State = GhostState.Walk;
-
-        NowDirection = (Direction)Random.Range(1, 5);
-
+        State = GhostState.Depart;
+        NowDirection = Direction.Left;
         _startPosition = transform.position;
     }
 
@@ -48,14 +49,22 @@ public class GhostAI : MonoBehaviour
             return;
         }
 
-        switch (State)
+        if (!_isDepart && State == GhostState.Depart)
         {
-            case GhostState.Depart: Depart(); break;
-            case GhostState.Walk: StartCoroutine(Walk()); break;
-            case GhostState.Chase: Chase(); break;
-            case GhostState.Shrink: Shrink(); break;
-            case GhostState.Dead: Dead(); break;
-            default: break;
+            StartCoroutine(Depart());
+            return;
+        }
+
+        if (State != PrevState)
+        {
+            switch (State)
+            {
+                case GhostState.Walk: StartCoroutine(Walk()); break;
+                case GhostState.Chase: Chase(); break;
+                case GhostState.Shrink: Shrink(); break;
+                case GhostState.Dead: Dead(); break;
+                default: break;
+            }
         }
     }
 
@@ -65,7 +74,9 @@ public class GhostAI : MonoBehaviour
         {
             _destination = _startPosition;
             transform.position = _startPosition;
-            NowDirection = (Direction)Random.Range(1, 5);
+
+            State = GhostState.Depart;
+            NowDirection = Direction.Left;
         }
     }
 
@@ -73,11 +84,21 @@ public class GhostAI : MonoBehaviour
     /// 리스폰 지점에서 출발해 문 밖으로 나간다.
     /// 입구로 완전히 나가기 전까지는 추적하지 않는다.
     /// </summary>
-    private void Depart()
+    private IEnumerator Depart()
     {
-        //Move(Direction.Up);
-        //Move(Direction.Right);
-        //Move(Direction.Up);
+        _isDepart = true;
+
+        Move(Direction.Up);
+        yield return new WaitForSeconds(1);
+        Move(Direction.Right);
+        yield return new WaitForSeconds(1);
+        Move(Direction.Up);
+        yield return new WaitForSeconds(1);
+        Move(Direction.Up);
+        yield return new WaitForSeconds(1);
+
+        PrevState = State;
+        State = GhostState.Walk;
     }
 
     /// <summary>
@@ -87,6 +108,7 @@ public class GhostAI : MonoBehaviour
     {
         if (_foundPlayer)
         {
+            PrevState = State;
             State = GhostState.Chase;
         }
 
