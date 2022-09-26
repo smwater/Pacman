@@ -95,7 +95,7 @@ public class GhostAI : MonoBehaviour
         Move(Direction.Up);
         yield return new WaitForSeconds(1);
 
-        NowDirection = Direction.Left;
+        NowDirection = (Direction)Random.Range(3, 5);
         PrevState = State;
         State = GhostState.Walk;
     }
