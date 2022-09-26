@@ -138,6 +138,22 @@ public class MapManager : SingletonBehaviour<MapManager>
                 {
                     Map[r * MAP_SIZE_ROW + c] = MapTile.GhostHouseDoor;
                 }
+                if (r == 18 && ((c >= 3 && c <= 7) || (c >= 22 && c <= 26)))
+                {
+                    Map[r * MAP_SIZE_ROW + c] = MapTile.Wall;
+                }
+                if (r == 27 && ((c >= 3 && c <= 7) || (c >= 22 && c <= 26)))
+                {
+                    Map[r * MAP_SIZE_ROW + c] = MapTile.Wall;
+                }
+                if ((c == 14 || c == 15) && r >= 19 && r <= 27)
+                {
+                    Map[r * MAP_SIZE_ROW + c] = MapTile.Wall;
+                }
+                if (((c == 2 || c == 3) || (c >= 5 && c <= 9) || (c >= 20 && c <= 24) || (c == 26 || c == 27)) && r >= 21 && r <= 24)
+                {
+                    Map[r * MAP_SIZE_ROW + c] = MapTile.Wall;
+                }
             }
         }
     }
