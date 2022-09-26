@@ -30,6 +30,9 @@ public class MapManager : SingletonBehaviour<MapManager>
     public GameObject PlayerPrefab;
     private GameObject _player;
 
+    public GameObject GhostPrefab;
+    private GameObject _ghost;
+
     public GameObject GhostHouseDoorPrefab;
     private const int DOOR_COUNT = 2;
     private GameObject[] _ghostHouseDoors;
@@ -41,6 +44,11 @@ public class MapManager : SingletonBehaviour<MapManager>
     private static readonly float _startPosX = 0f;
     private static readonly float _startPosY = 0f;
     private readonly Vector2 _startPosition = new Vector2(_startPosX, _startPosY);
+
+    private void OnEnable()
+    {
+        GameManager.Instance.PlayerDead.AddListener(BackToStartPosition);
+    }
 
     private void Start()
     {
@@ -56,6 +64,9 @@ public class MapManager : SingletonBehaviour<MapManager>
         _player = Instantiate(PlayerPrefab, _startPosition, Quaternion.identity);
         _player.transform.SetParent(transform);
 
+        _ghost = Instantiate(GhostPrefab, _startPosition, Quaternion.identity);
+        _ghost.transform.SetParent(transform);
+
         _ghostHouseDoors = new GameObject[DOOR_COUNT];
         for (int i = 0; i < DOOR_COUNT; i++)
         {
@@ -66,6 +77,11 @@ public class MapManager : SingletonBehaviour<MapManager>
 
         MapLoad();
         MapDraw();
+    }
+
+    private void OnDisable()
+    {
+        GameManager.Instance.PlayerDead.RemoveListener(BackToStartPosition);
     }
 
     /// <summary>
@@ -193,6 +209,10 @@ public class MapManager : SingletonBehaviour<MapManager>
                 {
                     _player.transform.Translate(new Vector2(c, r));
                 }
+                if(Map[r, c] == MapTile.GhostSpawnPoint)
+                {
+                    _ghost.transform.Translate(new Vector2(c, r));
+                }
             }
         }
     }
@@ -235,5 +255,15 @@ public class MapManager : SingletonBehaviour<MapManager>
         }
 
         return true;
+    }
+
+    /// <summary>
+    /// 플레이어와 유령을 처음 자리로 배치하는 함수
+    /// GameManager에서 구독한 플레이어 사망 이벤트가 실행됐을 때 호출 됨
+    /// </summary>
+    public void BackToStartPosition()
+    {
+        _player.transform.position = new Vector2(14, 10);
+        _ghost.transform.position = new Vector2(13, 15);
     }
 }

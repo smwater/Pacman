@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class PlayerMove : MonoBehaviour
 {
@@ -14,8 +15,6 @@ public class PlayerMove : MonoBehaviour
     private Vector3 _destination;
 
     private PlayerInput _input;
-    private bool _isPlayerDead = false;
-
 
     private void Awake()
     {
@@ -109,11 +108,9 @@ public class PlayerMove : MonoBehaviour
     /// </summary>
     private IEnumerator MoveSmoothly()
     {
-
         // 지정 좌표로 부드럽게 이동
         transform.position = Vector3.Lerp(transform.position, _destination, _duration);
-
-
+        
         // 연속해서 이동하다보면 지정 좌표에 도착하지 않은 상태에서
         // 다음 좌표로 이동하는 일이 생기는데 이렇게 되면 정수 단위 m로 이동할 수 없다.
         if (Vector3.Distance(transform.position, _destination) <= ERROR_RANGE)
@@ -124,12 +121,10 @@ public class PlayerMove : MonoBehaviour
         }
         yield return null;
     }
-
-    private void OnTriggerEnter2D(Collider2D collision)
+    //토글을 끄는 public 함수
+    //direction을 0,0,0으로 하는 public 함수
+    public void OffDirectionToggle()
     {
-        if(collision.CompareTag("Ghost"))
-        {
-            _isPlayerDead = true;
-        }
+        _directionToggle = false;
     }
 }
