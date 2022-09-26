@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// 유령의 상태를 나열한 열거형 타입
 public enum GhostState
 {
     None,
@@ -40,18 +41,21 @@ public class GhostAI : MonoBehaviour
 
     private void Update()
     {
+        // 방향이 지정되었을 때만 이동
         if (_directionToggle)
         {
             StartCoroutine(MoveSmoothly());
             return;
         }
 
+        // 출발하지 않고, 현재 상태가 Depart라면 출발
         if (!_isDepart && State == GhostState.Depart)
         {
             StartCoroutine(Depart());
             return;
         }
 
+        // 상태가 변경될 때 한 번만 실행
         if (State != PrevState)
         {
             switch (State)
@@ -65,6 +69,8 @@ public class GhostAI : MonoBehaviour
         }
     }
 
+    // 유령이 플레이어를 잡았을 경우, 가려던 방향과 현재 좌표를 리셋하고
+    // Depart 상태부터 다시 실행
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Player"))
@@ -82,6 +88,7 @@ public class GhostAI : MonoBehaviour
     /// </summary>
     private IEnumerator Depart()
     {
+        // 막 생성되었을 때에는 오브젝트 풀링을 위한 위치에 있어 현재의 위치를 저장
         _startPosition = transform.position;
 
         _isDepart = true;
@@ -96,6 +103,8 @@ public class GhostAI : MonoBehaviour
         yield return new WaitForSeconds(1);
 
         NowDirection = (Direction)Random.Range(3, 5);
+
+        // 모든 동작이 끝나면 Walk 상태로 변환
         PrevState = State;
         State = GhostState.Walk;
     }
@@ -105,12 +114,14 @@ public class GhostAI : MonoBehaviour
     /// </summary>
     private IEnumerator Walk()
     {
+        // 플레이어를 찾으면 Chase 상태로 변환
         if (_foundPlayer)
         {
             PrevState = State;
             State = GhostState.Chase;
         }
 
+        // 벽에 부딪히면 방향을 전환
         if (MapManager.Instance.CheckDirectionToGo(transform.position, NowDirection))
         {
             Move(NowDirection);
@@ -148,6 +159,10 @@ public class GhostAI : MonoBehaviour
 
     }
 
+    /// <summary>
+    /// 지정한 방향을 목적지 좌표로 저장한다.
+    /// </summary>
+    /// <param name="direction">나아갈 방향</param>
     private void Move(Direction direction)
     {
         switch (direction)
