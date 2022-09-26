@@ -50,13 +50,18 @@ public class MapManager : SingletonBehaviour<MapManager>
         {
             _walls[i] = Instantiate(WallPrefab, _startPosition, Quaternion.identity);
             _walls[i].SetActive(false);
+            _walls[i].transform.SetParent(transform);
         }
+
         _player = Instantiate(PlayerPrefab, _startPosition, Quaternion.identity);
+        _player.transform.SetParent(transform);
+
         _ghostHouseDoors = new GameObject[DOOR_COUNT];
         for (int i = 0; i < DOOR_COUNT; i++)
         {
             _ghostHouseDoors[i] = Instantiate(GhostHouseDoorPrefab, _startPosition, Quaternion.identity);
             _ghostHouseDoors[i].SetActive(false);
+            _ghostHouseDoors[i].transform.SetParent(transform);
         }
 
         MapLoad();
