@@ -29,11 +29,15 @@ public class GhostAI : MonoBehaviour
 
     private bool _foundPlayer;
 
+    private Vector3 _startPosition;
+
     private void Awake()
     {
         State = GhostState.Walk;
 
         NowDirection = (Direction)Random.Range(1, 5);
+
+        _startPosition = transform.position;
     }
 
     private void Update()
@@ -52,6 +56,16 @@ public class GhostAI : MonoBehaviour
             case GhostState.Shrink: Shrink(); break;
             case GhostState.Dead: Dead(); break;
             default: break;
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Player"))
+        {
+            _destination = _startPosition;
+            transform.position = _startPosition;
+            NowDirection = (Direction)Random.Range(1, 5);
         }
     }
 
