@@ -248,8 +248,6 @@ public class MapManager : SingletonBehaviour<MapManager>
                 break;
         }
 
-
-
         // 해당 좌표에 벽이나 유령의 집 문이 있는지 여부에 따라 반환
         if (Map[y, x] == MapTile.Wall || Map[y, x] == MapTile.GhostHouseDoor)
         {

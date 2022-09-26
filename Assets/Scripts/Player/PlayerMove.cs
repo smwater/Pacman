@@ -51,7 +51,6 @@ public class PlayerMove : MonoBehaviour
         {
             Debug.Log("스킬은 아직 미구현");
         }
-
     }
 
     // 방향 지정 메서드
@@ -154,6 +153,7 @@ public class PlayerMove : MonoBehaviour
         }
         yield return null;
     }
+
     //토글을 끄는 public 함수
     //direction을 0,0,0으로 하는 public 함수
     public void OffDirectionToggle()
