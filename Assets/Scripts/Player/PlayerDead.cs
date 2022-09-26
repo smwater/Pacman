@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class PlayerDead : MonoBehaviour
 {
-    public int _playerLife = 4;
+    [SerializeField]
+    private int _life = 4;
 
     private PlayerMove _move;
 
@@ -35,14 +36,14 @@ public class PlayerDead : MonoBehaviour
     /// </summary>
     private void DecreaseLife()
     {
-        if (_playerLife <= 0)
+        if (_life <= 0)
         {
             Debug.Log("게임 오버");
             GameManager.Instance.GameOver.Invoke();
         }
         else
         {
-            --_playerLife;
+            --_life;
             Dead();
         }
     }
