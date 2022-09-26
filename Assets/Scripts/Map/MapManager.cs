@@ -10,7 +10,8 @@ public class MapManager : SingletonBehaviour<MapManager>
         None,
         Wall,
         PlayerSpawnPoint,
-        GoastSpawnPoint
+        GhostSpawnPoint,
+        GhostHouseDoor
     }
 
     public enum Direction
@@ -29,13 +30,17 @@ public class MapManager : SingletonBehaviour<MapManager>
     public GameObject PlayerPrefab;
     private GameObject _player;
 
+    public GameObject GhostHouseDoorPrefab;
+    private const int DOOR_COUNT = 2;
+    private GameObject[] _ghostHouseDoors;
+
     public GameObject WallPrefab;
     private readonly int _wallMaxCount = MAP_SIZE_ROW * MAP_SIZE_COLUMN;
     private GameObject[] _walls;
 
-    private static readonly float _posX = -19f;
-    private static readonly float _posY = -19f;
-    private readonly Vector2 _startPosition = new Vector2(_posX, _posY);
+    private static readonly float _startPosX = 0f;
+    private static readonly float _startPosY = 0f;
+    private readonly Vector2 _startPosition = new Vector2(_startPosX, _startPosY);
 
     private void Start()
     {
@@ -47,6 +52,12 @@ public class MapManager : SingletonBehaviour<MapManager>
             _walls[i].SetActive(false);
         }
         _player = Instantiate(PlayerPrefab, _startPosition, Quaternion.identity);
+        _ghostHouseDoors = new GameObject[DOOR_COUNT];
+        for (int i = 0; i < DOOR_COUNT; i++)
+        {
+            _ghostHouseDoors[i] = Instantiate(GhostHouseDoorPrefab, _startPosition, Quaternion.identity);
+            _ghostHouseDoors[i].SetActive(false);
+        }
 
         MapLoad();
         MapDraw();
@@ -89,6 +100,7 @@ public class MapManager : SingletonBehaviour<MapManager>
     private void MapDraw()
     {
         int usedWallCount = 0;
+        int usedDoorCount = 0;
 
         for (int r = 0; r < MAP_SIZE_ROW; r++)
         {
@@ -99,6 +111,13 @@ public class MapManager : SingletonBehaviour<MapManager>
                     _walls[usedWallCount].SetActive(true);
                     _walls[usedWallCount].transform.Translate(new Vector2(c, r));
                     usedWallCount++;
+                    continue;
+                }
+                if (Map[r * MAP_SIZE_ROW + c] == MapTile.GhostHouseDoor)
+                {
+                    _ghostHouseDoors[usedDoorCount].SetActive(true);
+                    _ghostHouseDoors[usedDoorCount].transform.Translate(new Vector2(c, r));
+                    usedDoorCount++;
                     continue;
                 }
                 if (Map[r * MAP_SIZE_ROW + c] == MapTile.PlayerSpawnPoint)
