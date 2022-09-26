@@ -8,7 +8,7 @@ public class PlayerMove : MonoBehaviour
 
     private bool _directionToggle;
     [SerializeField]
-    private float _speed = 1f;
+    private float _moveSpeed = 1f;
     [SerializeField]
     private float _duration = 0.1f;
     private Vector3 _destination;
@@ -22,7 +22,6 @@ public class PlayerMove : MonoBehaviour
 
     private void Update()
     {
-
         // 방향이 지정되었을 때만 이동
         if (_directionToggle)
         {
@@ -61,7 +60,7 @@ public class PlayerMove : MonoBehaviour
         {
             // 반대쪽 범위 바깥에서 맵 안으로 들어오는 것처럼 보이게 한다.
             transform.position = new Vector3(transform.position.x, -1f, 0f);
-            _destination = transform.position + new Vector3(0f, _speed, 0f);
+            _destination = transform.position + new Vector3(0f, _moveSpeed, 0f);
             _directionToggle = true;
             return;
         }
@@ -74,7 +73,7 @@ public class PlayerMove : MonoBehaviour
 
         // 애니메이션 세팅도 여기서 할 예정
         // 방향에 따라 다른 좌표를 지정
-        _destination = transform.position + new Vector3(0f, _speed, 0f);
+        _destination = transform.position + new Vector3(0f, _moveSpeed, 0f);
         _directionToggle = true;
     }
 
@@ -83,7 +82,7 @@ public class PlayerMove : MonoBehaviour
         if (transform.position.y == 0)
         {
             transform.position = new Vector3(transform.position.x, MapManager.MAP_SIZE_ROW, 0f);
-            _destination = transform.position + new Vector3(0f, -_speed, 0f);
+            _destination = transform.position + new Vector3(0f, -_moveSpeed, 0f);
             _directionToggle = true;
             return;
         }
@@ -93,7 +92,7 @@ public class PlayerMove : MonoBehaviour
             return;
         }
 
-        _destination = transform.position + new Vector3(0f, -_speed, 0f);
+        _destination = transform.position + new Vector3(0f, -_moveSpeed, 0f);
         _directionToggle = true;
     }
 
@@ -102,7 +101,7 @@ public class PlayerMove : MonoBehaviour
         if (transform.position.x == 0)
         {
             transform.position = new Vector3(MapManager.MAP_SIZE_COLUMN, transform.position.y, 0f);
-            _destination = transform.position + new Vector3(-_speed, 0f, 0f);
+            _destination = transform.position + new Vector3(-_moveSpeed, 0f, 0f);
             _directionToggle = true;
             return;
         }
@@ -112,7 +111,7 @@ public class PlayerMove : MonoBehaviour
             return;
         }
 
-        _destination = transform.position + new Vector3(-_speed, 0f, 0f);
+        _destination = transform.position + new Vector3(-_moveSpeed, 0f, 0f);
         _directionToggle = true;
     }
 
@@ -121,7 +120,7 @@ public class PlayerMove : MonoBehaviour
         if (transform.position.x == MapManager.MAP_SIZE_COLUMN - 1)
         {
             transform.position = new Vector3(-1f, transform.position.y, 0f);
-            _destination = transform.position + new Vector3(_speed, 0f, 0f);
+            _destination = transform.position + new Vector3(_moveSpeed, 0f, 0f);
             _directionToggle = true;
             return;
         }
@@ -131,7 +130,7 @@ public class PlayerMove : MonoBehaviour
             return;
         }
 
-        _destination = transform.position + new Vector3(_speed, 0f, 0f);
+        _destination = transform.position + new Vector3(_moveSpeed, 0f, 0f);
         _directionToggle = true;
     }
 
