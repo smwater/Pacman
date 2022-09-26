@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 
 public class PlayerDead : MonoBehaviour
 {
@@ -9,9 +11,12 @@ public class PlayerDead : MonoBehaviour
 
     private PlayerMove _move;
 
+    private TextMeshProUGUI GameOverText;
+
     private void Awake()
     {
         _move = GetComponent<PlayerMove>();
+        //GameOverText = GetComponent
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -38,8 +43,8 @@ public class PlayerDead : MonoBehaviour
     {
         if (_life <= 0)
         {
-            Debug.Log("게임 오버");
-            GameManager.Instance.GameOver.Invoke();
+            //Invoke();
+            GameManager.Instance.GameOver.Invoke(GameState.GameOver);
         }
         else
         {

@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
 using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 
 public class StageScelectManager : MonoBehaviour
 {
@@ -42,11 +43,12 @@ public class StageScelectManager : MonoBehaviour
     public void ClickYesButton()
     {
         gameObject.SetActive(false);
+        //임시로 stage 씬 로드
+        SceneManager.LoadScene("Stage");
     }
 
     public void ClickNoButton()
     {
         _selectUI.SetActive(false);
     }
-
 }
