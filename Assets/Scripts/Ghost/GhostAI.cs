@@ -28,17 +28,14 @@ public class GhostAI : MonoBehaviour
     private float _duration = 0.1f;
     private Vector3 _destination;
 
+    private Vector3 _startPosition;
     private bool _isDepart = false;
 
     private bool _foundPlayer;
 
-    private Vector3 _startPosition;
-
     private void Awake()
     {
         State = GhostState.Depart;
-        NowDirection = Direction.Left;
-        _startPosition = transform.position;
     }
 
     private void Update()
@@ -74,9 +71,8 @@ public class GhostAI : MonoBehaviour
         {
             _destination = _startPosition;
             transform.position = _startPosition;
-
             State = GhostState.Depart;
-            NowDirection = Direction.Left;
+            StartCoroutine(Depart());
         }
     }
 
@@ -86,6 +82,8 @@ public class GhostAI : MonoBehaviour
     /// </summary>
     private IEnumerator Depart()
     {
+        _startPosition = transform.position;
+
         _isDepart = true;
 
         Move(Direction.Up);
@@ -97,6 +95,7 @@ public class GhostAI : MonoBehaviour
         Move(Direction.Up);
         yield return new WaitForSeconds(1);
 
+        NowDirection = Direction.Left;
         PrevState = State;
         State = GhostState.Walk;
     }
