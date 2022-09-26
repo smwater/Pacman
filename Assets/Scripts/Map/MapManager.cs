@@ -62,9 +62,11 @@ public class MapManager : SingletonBehaviour<MapManager>
         }
 
         _player = Instantiate(PlayerPrefab, _startPosition, Quaternion.identity);
+        _player.SetActive(false);
         _player.transform.SetParent(transform);
 
         _ghost = Instantiate(GhostPrefab, _startPosition, Quaternion.identity);
+        _ghost.SetActive(false);
         _ghost.transform.SetParent(transform);
 
         _ghostHouseDoors = new GameObject[DOOR_COUNT];
@@ -74,9 +76,6 @@ public class MapManager : SingletonBehaviour<MapManager>
             _ghostHouseDoors[i].SetActive(false);
             _ghostHouseDoors[i].transform.SetParent(transform);
         }
-
-        MapLoad();
-        MapDraw();
     }
 
     private void OnDisable()
@@ -207,10 +206,12 @@ public class MapManager : SingletonBehaviour<MapManager>
                 }
                 if (Map[r, c] == MapTile.PlayerSpawnPoint)
                 {
+                    _player.SetActive(true);
                     _player.transform.Translate(new Vector2(c, r));
                 }
                 if(Map[r, c] == MapTile.GhostSpawnPoint)
                 {
+                    _ghost.SetActive(true);
                     _ghost.transform.Translate(new Vector2(c, r));
                 }
             }
@@ -265,5 +266,14 @@ public class MapManager : SingletonBehaviour<MapManager>
     {
         _player.transform.position = new Vector2(14, 10);
         _ghost.transform.position = new Vector2(13, 15);
+    }
+
+    /// <summary>
+    /// Stage1을 불러오는 함수
+    /// </summary>
+    public void LoadStage1()
+    {
+        MapLoad();
+        MapDraw();
     }
 }

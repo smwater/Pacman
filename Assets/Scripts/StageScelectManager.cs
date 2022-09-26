@@ -42,6 +42,7 @@ public class StageScelectManager : MonoBehaviour
     public void ClickYesButton()
     {
         gameObject.SetActive(false);
+        MapManager.Instance.LoadStage1();
     }
 
     public void ClickNoButton()
