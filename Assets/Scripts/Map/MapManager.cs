@@ -249,7 +249,7 @@ public class MapManager : SingletonBehaviour<MapManager>
         }
 
         // 해당 좌표에 벽이나 유령의 집 문이 있는지(유령은 예외) 여부에 따라 반환
-        if (Map[y, x] == MapTile.Wall || (Map[y, x] == MapTile.GhostHouseDoor && transform.CompareTag("Ghost")))
+        if (Map[y, x] == MapTile.Wall || Map[y, x] == MapTile.GhostHouseDoor)
         {
             return false;
         }
