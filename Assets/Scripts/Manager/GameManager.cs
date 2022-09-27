@@ -27,9 +27,10 @@ public class GameManager : SingletonBehaviour<GameManager>
     
     public GameObject RankingUIPrefab;
     private GameObject _rankingUI;
-    private Vector3 RANKINGUI_POSITION = new Vector3(0, 0, 0);
     
+    //게임이 멈췄는지
     public bool IsPause = false;
+    //스테이지 선택 Yes버튼이 눌렸는지 
     public bool _isClickYes = false;
 
     private GameState _gameState;
@@ -67,6 +68,10 @@ public class GameManager : SingletonBehaviour<GameManager>
         }
     }
 
+    /// <summary>
+    ///  게임 상태에 따라 GameState UI를 출력하고 해당 상태마다 지연하는 함수
+    /// </summary>
+    /// <returns></returns>
     public IEnumerator PrintingText()
     {
         InGameTextUI(GameState.Ready);
@@ -75,9 +80,13 @@ public class GameManager : SingletonBehaviour<GameManager>
         yield return new WaitForSecondsRealtime(1);
         InGameTextUI(GameState.Playing);
         _isClickYes = false;
-        Debug.Log("코루틴 종료");
     }
 
+    /// <summary>
+    /// GameState에 따라 InGameUI를 변경하는 함수
+    /// 게임이 끝나는 경우(클리어, 게임오버) 3초 뒤 랭킹창 팝업
+    /// </summary>
+    /// <param name="gameState"></param>
     private void InGameTextUI(GameState gameState)
     {
         switch (gameState)

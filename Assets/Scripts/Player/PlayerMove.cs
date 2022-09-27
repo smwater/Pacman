@@ -24,14 +24,12 @@ public class PlayerMove : MonoBehaviour
     {
         if(!GameManager.Instance.IsPause)
         {
-
             // 방향이 지정되었을 때만 이동
             if (_directionToggle)
             {
                 StartCoroutine(MoveSmoothly());
                 return;
             }
-
             // 입력에 따라 다른 방향을 지정
             if (_input.GoUp)
             {

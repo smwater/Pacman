@@ -12,11 +12,14 @@ public class TitleUI : MonoBehaviour
     [SerializeField]
     private float _stopPosition = 450f;
 
+    //Å¸ÀÌÆ² UI º¯¼öµé
     private GameObject _titleImage;
     private float _moveTitlePositionY;
     private GameObject _buttons;
     private GameObject _helpButton;
     private bool _isSetTitle;
+
+    //·©Å· ÆË¾÷Ã¢
     private GameObject _rankingUI;
 
     //ÆË¾÷ Ã¢
