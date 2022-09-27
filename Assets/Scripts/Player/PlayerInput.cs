@@ -32,9 +32,5 @@ public class PlayerInput : MonoBehaviour
         {
             GoRight = true;
         }
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            UseSkill = true;
-        }
     }
 }
