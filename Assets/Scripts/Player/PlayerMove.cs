@@ -10,7 +10,7 @@ public class PlayerMove : MonoBehaviour
     [SerializeField]
     private float _moveSpeed = 1f;
     [SerializeField]
-    private float _duration = 0.1f;
+    private float _duration = 0.5f;
     private Vector3 _destination;
 
     private PlayerInput _input;
