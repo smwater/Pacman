@@ -9,6 +9,9 @@ public class BuildOption : MonoBehaviour
         SetResolution();
     }
 
+    /// <summary>
+    /// 빌드 파일의 해상도를 고정한다.
+    /// </summary>
     private void SetResolution()
     {
         int setWidth = 500;
