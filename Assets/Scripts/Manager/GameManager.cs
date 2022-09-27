@@ -27,6 +27,8 @@ public class GameManager : SingletonBehaviour<GameManager>
     
     public GameObject RankingUIPrefab;
     private GameObject _rankingUI;
+
+    public GameObject InGameUI;
     
     //∞‘¿”¿Ã ∏ÿ√Ë¥¬¡ˆ
     public bool IsPause = false;
@@ -38,6 +40,7 @@ public class GameManager : SingletonBehaviour<GameManager>
     private void OnEnable()
     {
         RankingUIPrefab.SetActive(false);
+        InGameUI.SetActive(false);
         GameOver.AddListener(InGameTextUI);
     }
 
@@ -56,6 +59,12 @@ public class GameManager : SingletonBehaviour<GameManager>
         if(_isClickYes)
         {
             StartCoroutine(GameManager.Instance.PrintingText());
+        }
+
+        if(Input.GetKeyDown(KeyCode.Escape))
+        {
+            IsPause = true;
+            
         }
 
         if (_gameState == GameState.Ready || _gameState == GameState.GameOver || _gameState == GameState.Clear)
@@ -94,6 +103,7 @@ public class GameManager : SingletonBehaviour<GameManager>
             case GameState.Ready:
                 InGameText.On();
                 Text.text = "Ready";
+                InGameUI.SetActive(true);
                 break;
             case GameState.Start:
                 Text.text = "Start";
