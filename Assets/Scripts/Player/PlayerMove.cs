@@ -46,10 +46,6 @@ public class PlayerMove : MonoBehaviour
         {
             DirectionRight();
         }
-        if (_input.UseSkill)
-        {
-            Debug.Log("스킬은 아직 미구현");
-        }
     }
 
     // 방향 지정 메서드
