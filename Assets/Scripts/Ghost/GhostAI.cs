@@ -2,18 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-// 유령의 상태를 나열한 열거형 타입
-public enum GhostState
-{
-    None,
-    Depart,  // 출발
-    Walk   // 돌아다니기
-}
-
 public class GhostAI : MonoBehaviour
 {
-    public GhostState State;
-    public GhostState PrevState = GhostState.None;
     public Direction NowDirection;
 
     private const float ERROR_RANGE = 0.01f;
@@ -23,17 +13,16 @@ public class GhostAI : MonoBehaviour
     private float _moveSpeed = 1f;
     [SerializeField]
     private float _duration = 0.1f;
-    private Vector3 _destination;
 
+    private Vector3 _destination;
     private Vector3 _startPosition;
-    private bool _isDepart = false;
 
     private int _walkCount = 0;
     private int _randomNum = 1;
 
     private void Awake()
     {
-        State = GhostState.Depart;
+        NowDirection = (Direction)Random.Range(1, 5);
     }
 
     private void Update()
@@ -47,63 +36,20 @@ public class GhostAI : MonoBehaviour
                 return;
             }
 
-            // 상태가 변경될 때 한 번만 실행
-            if (State != PrevState)
-            {
-                switch (State)
-                {
-                    case GhostState.Depart: StartCoroutine(Depart()); break;
-                    case GhostState.Walk: StartCoroutine(Walk()); break;
-                    default: break;
-                }
-            }
+            StartCoroutine(Walk());
         }
     }
 
     // 유령이 플레이어를 잡았을 경우, 가려던 방향과 현재 좌표를 리셋하고
-    // Depart 상태부터 다시 실행
+    // Walk 상태부터 다시 실행
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Player"))
         {
             _destination = _startPosition;
             transform.position = _startPosition;
-            _isDepart = false;
-            State = GhostState.Depart;
-            PrevState = GhostState.None;
+            NowDirection = (Direction)Random.Range(1, 5);
         }
-    }
-
-    /// <summary>
-    /// 리스폰 지점에서 출발해 문 밖으로 나간다.
-    /// 입구로 완전히 나가기 전까지는 추적하지 않는다.
-    /// </summary>
-    private IEnumerator Depart()
-    {
-        if (_isDepart)
-        {
-            yield break;
-        }
-
-        // 막 생성되었을 때에는 오브젝트 풀링을 위한 위치에 있어 현재의 위치를 저장
-        _startPosition = transform.position;
-
-        _isDepart = true;
-
-        Move(Direction.Up);
-        yield return new WaitForSeconds(1);
-        Move(Direction.Right);
-        yield return new WaitForSeconds(1);
-        Move(Direction.Up);
-        yield return new WaitForSeconds(1);
-        Move(Direction.Up);
-        yield return new WaitForSeconds(1);
-
-        NowDirection = (Direction)Random.Range(3, 5);
-
-        // 모든 동작이 끝나면 Walk 상태로 변환
-        PrevState = State;
-        State = GhostState.Walk;
     }
 
     /// <summary>
@@ -226,5 +172,15 @@ public class GhostAI : MonoBehaviour
             _directionToggle = false;
         }
         yield return null;
+    }
+
+    /// <summary>
+    /// 유령의 시작 위치를 설정해주는 함수
+    /// </summary>
+    /// <param name="x">유령의 시작 좌표의 x 값</param>
+    /// <param name="y">유령의 시작 좌표의 y 값</param>
+    public void SetStartPosition(float x, float y)
+    {
+        _startPosition = new Vector2(x, y);
     }
 }
