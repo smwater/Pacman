@@ -141,6 +141,8 @@ public class GhostAI : MonoBehaviour
     /// <param name="direction">나아갈 방향</param>
     private void Move(Direction direction)
     {
+        ChangeDirection(direction);
+
         switch (direction)
         {
             case Direction.Up:
@@ -160,6 +162,48 @@ public class GhostAI : MonoBehaviour
         }
 
         _directionToggle = true;
+    }
+
+    /// <summary>
+    /// Ghost가 맵 밖으로 탈출하는 것을 방지하기 위해
+    /// Ghost가 갈 수 있는 최대 범위에 도달하면 방향을 강제로 전환한다.
+    /// </summary>
+    /// <param name="direction">나아갈 방향</param>
+    private void ChangeDirection(Direction direction)
+    {
+        switch (direction)
+        {
+            case Direction.Up:
+                if (transform.position.y == MapManager.MAP_SIZE_ROW - 2)
+                {
+                    NowDirection = Direction.Down;
+                    _walkCount = 0;
+                }
+                break;
+            case Direction.Down:
+                if (transform.position.y == 1)
+                {
+                    NowDirection = Direction.Up;
+                    _walkCount = 0;
+                }
+                break;
+            case Direction.Left:
+                if (transform.position.x == 1)
+                {
+                    NowDirection = Direction.Right;
+                    _walkCount = 0;
+                }
+                break;
+            case Direction.Right:
+                if (transform.position.y == MapManager.MAP_SIZE_COLUMN - 2)
+                {
+                    NowDirection = Direction.Left;
+                    _walkCount = 0;
+                }
+                break;
+            default:
+                break;
+        }
     }
 
     /// <summary>
