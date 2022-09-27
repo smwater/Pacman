@@ -9,7 +9,9 @@ public enum MapTile
     Wall,
     PlayerSpawnPoint,
     GhostSpawnPoint,
-    GhostHouseDoor
+    GhostHouseDoor,
+    SmallCoin,
+    BigCoin
 }
 
 public enum Direction
@@ -40,6 +42,23 @@ public class MapManager : SingletonBehaviour<MapManager>
     public GameObject WallPrefab;
     private readonly int _wallMaxCount = MAP_SIZE_ROW * MAP_SIZE_COLUMN;
     private GameObject[] _walls;
+
+    public GameObject SmallCoinPrefab;
+    private readonly int _smallCoinMaxCount = MAP_SIZE_ROW * MAP_SIZE_COLUMN;
+    private GameObject[] _smallCoins;
+
+    public GameObject BigCoinPrefab;
+    private readonly int _bigCoinMaxCount = 50;
+    private GameObject[] _bigCoins;
+
+    [SerializeField]
+    private int _placedSmallCoinCount = 0;
+    [SerializeField]
+    private int _placedBigCoinCount = 0;
+    [SerializeField]
+    private int _earnedSmallCoinCount = 0;
+    [SerializeField]
+    private int _earnedBigCoinCount = 0;
 
     private static readonly float _startPosX = 0f;
     private static readonly float _startPosY = 0f;
@@ -75,6 +94,22 @@ public class MapManager : SingletonBehaviour<MapManager>
             _ghostHouseDoors[i] = Instantiate(GhostHouseDoorPrefab, _startPosition, Quaternion.identity);
             _ghostHouseDoors[i].SetActive(false);
             _ghostHouseDoors[i].transform.SetParent(transform);
+        }
+
+        _smallCoins = new GameObject[_smallCoinMaxCount];
+        for (int i = 0; i < _smallCoinMaxCount; i++)
+        {
+            _smallCoins[i] = Instantiate(SmallCoinPrefab, _startPosition, Quaternion.identity);
+            _smallCoins[i].SetActive(false);
+            _smallCoins[i].transform.SetParent(transform);
+        }
+
+        _bigCoins = new GameObject[_bigCoinMaxCount];
+        for (int i = 0; i < _bigCoinMaxCount; i++)
+        {
+            _bigCoins[i] = Instantiate(BigCoinPrefab, _startPosition, Quaternion.identity);
+            _bigCoins[i].SetActive(false);
+            _bigCoins[i].transform.SetParent(transform);
         }
     }
 
@@ -174,6 +209,10 @@ public class MapManager : SingletonBehaviour<MapManager>
                 {
                     Map[r, c] = MapTile.Wall;
                 }
+                if (Map[r, c] == MapTile.None)
+                {
+                    Map[r, c] = MapTile.SmallCoin;
+                }
             }
         }
     }
@@ -204,12 +243,19 @@ public class MapManager : SingletonBehaviour<MapManager>
                     usedDoorCount++;
                     continue;
                 }
+                if (Map[r, c] == MapTile.SmallCoin)
+                {
+                    _smallCoins[_placedSmallCoinCount].SetActive(true);
+                    _smallCoins[_placedSmallCoinCount].transform.Translate(new Vector2(c, r));
+                    _placedSmallCoinCount++;
+                    continue;
+                }
                 if (Map[r, c] == MapTile.PlayerSpawnPoint)
                 {
                     _player.SetActive(true);
                     _player.transform.Translate(new Vector2(c, r));
                 }
-                if(Map[r, c] == MapTile.GhostSpawnPoint)
+                if (Map[r, c] == MapTile.GhostSpawnPoint)
                 {
                     _ghost.SetActive(true);
                     _ghost.transform.Translate(new Vector2(c, r));
@@ -275,5 +321,17 @@ public class MapManager : SingletonBehaviour<MapManager>
     {
         MapLoad();
         MapDraw();
+    }
+
+    public void CountCoin(CoinScore coin)
+    {
+        if (coin == CoinScore.Small)
+        {
+            _earnedSmallCoinCount++;
+        }    
+        if (coin == CoinScore.Big)
+        {
+            _earnedBigCoinCount++;
+        }
     }
 }

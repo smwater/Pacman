@@ -2796,6 +2796,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4436769980842425362, guid: a2ad17eb6a4c4ca4ab8e3fb279f337a7, type: 3}
+      propertyPath: BigCoinPrefab
+      value: 
+      objectReference: {fileID: 488878664538775429, guid: d3cb6775c79bdfe42ae6273a7cb87a1e, type: 3}
+    - target: {fileID: 4436769980842425362, guid: a2ad17eb6a4c4ca4ab8e3fb279f337a7, type: 3}
+      propertyPath: SmallCoinPrefab
+      value: 
+      objectReference: {fileID: 4510969914516583831, guid: a42d6c13523d0774b97435d0e18946ff, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a2ad17eb6a4c4ca4ab8e3fb279f337a7, type: 3}
 --- !u!1 &2079828649
