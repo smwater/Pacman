@@ -102,7 +102,7 @@ MonoBehaviour:
   PrevState: 0
   NowDirection: 0
   _moveSpeed: 1
-  _duration: 0.5
+  _duration: 0.1
 --- !u!58 &2633503293017785081
 CircleCollider2D:
   m_ObjectHideFlags: 0

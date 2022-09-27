@@ -22,7 +22,7 @@ public class GhostAI : MonoBehaviour
     [SerializeField]
     private float _moveSpeed = 1f;
     [SerializeField]
-    private float _duration = 0.5f;
+    private float _duration = 0.1f;
     private Vector3 _destination;
 
     private Vector3 _startPosition;
