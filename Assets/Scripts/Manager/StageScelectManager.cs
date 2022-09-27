@@ -8,17 +8,15 @@ using UnityEngine.UI;
 
 public class StageScelectManager : MonoBehaviour
 {   
-    private GameObject _selectUI;
-    private Sprite[] sprites;
+    private GameObject SelectWindow;
+    private bool _selectWindowActive = false;
 
     private void Awake()
     {
-        _selectUI = GameObject.Find("SelectUI");
-    }
-
-    private void Start()
-    {
-        _selectUI.SetActive(false);
+        SelectWindow = GameObject.Find("SelectWindows");
+        SelectWindow.transform.GetChild(0).gameObject.SetActive(false);
+        SelectWindow.transform.GetChild(1).gameObject.SetActive(false);
+        SelectWindow.transform.GetChild(2).gameObject.SetActive(false);
     }
 
     public void ClickBackButton()
@@ -35,16 +33,27 @@ public class StageScelectManager : MonoBehaviour
 
     public void ClickSelectButton()
     {
-        if(GetButtonName() == "Easy")
+        if(!_selectWindowActive)
         {
-            //_selectUI.GetComponent<Image>().sprite = sprites[0];
+            if(GetButtonName() == "Easy")
+            {
+                SelectWindow.transform.GetChild(0).gameObject.SetActive(true);
+                    _selectWindowActive = true;
+            }
+            else if(GetButtonName() == "Normal")
+            {
+                SelectWindow.transform.GetChild(1).gameObject.SetActive(true);
+            }
+            else
+            {
+                SelectWindow.transform.GetChild(2).gameObject.SetActive(true);
+            }
         }
-
-        _selectUI.SetActive(true);
     }
 
     /// <summary>
     /// Yes버튼 클릭시 게임매니저의 InGameUI를 활성화 시킴
+    /// 다른 스테이지 로드하는 코드 추가 필요
     /// </summary>
     public void ClickYesButton()
     {
@@ -55,7 +64,10 @@ public class StageScelectManager : MonoBehaviour
 
     public void ClickNoButton()
     {
-        _selectUI.SetActive(false);
+        SelectWindow.transform.GetChild(0).gameObject.SetActive(false);
+        SelectWindow.transform.GetChild(1).gameObject.SetActive(false);
+        SelectWindow.transform.GetChild(2).gameObject.SetActive(false);
+        _selectWindowActive = false;
     }
 
 }
