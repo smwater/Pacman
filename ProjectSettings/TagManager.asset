@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Wall
   - Ghost
+  - Score
   layers:
   - Default
   - TransparentFX
