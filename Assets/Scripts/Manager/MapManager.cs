@@ -323,6 +323,10 @@ public class MapManager : SingletonBehaviour<MapManager>
         MapDraw();
     }
 
+    /// <summary>
+    /// 코인 종류에 따라 갯수를 세어준다.
+    /// </summary>
+    /// <param name="coin">코인의 종류</param>
     public void CountCoin(CoinScore coin)
     {
         if (coin == CoinScore.Small)
