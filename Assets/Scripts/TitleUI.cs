@@ -70,7 +70,8 @@ public class TitleUI : MonoBehaviour
 
     public void ClickStatButton()
     {
-        SceneManager.LoadScene("StageSelect");
+        SceneManager.LoadScene("StageSelect", LoadSceneMode.Single);
+        SceneManager.LoadScene("Stage", LoadSceneMode.Additive);
     }
 
     public void ClickCreditButton()

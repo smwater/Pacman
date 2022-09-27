@@ -2,27 +2,27 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// Map 배열에 들어갈 수 있는 정보를 저장하는 열거형 변수
+public enum MapTile
+{
+    None,
+    Wall,
+    PlayerSpawnPoint,
+    GhostSpawnPoint,
+    GhostHouseDoor
+}
+
+public enum Direction
+{
+    None,
+    Up,
+    Down,
+    Left,
+    Right
+}
+
 public class MapManager : SingletonBehaviour<MapManager>
 {
-    // Map 배열에 들어갈 수 있는 정보를 저장하는 열거형 변수
-    public enum MapTile
-    {
-        None,
-        Wall,
-        PlayerSpawnPoint,
-        GhostSpawnPoint,
-        GhostHouseDoor
-    }
-
-    public enum Direction
-    {
-        None,
-        Up,
-        Down,
-        Left,
-        Right
-    }
-
     public MapTile[,] Map = new MapTile[MAP_SIZE_ROW, MAP_SIZE_COLUMN];
     public const int MAP_SIZE_ROW = 30;
     public const int MAP_SIZE_COLUMN = 30;
@@ -62,9 +62,11 @@ public class MapManager : SingletonBehaviour<MapManager>
         }
 
         _player = Instantiate(PlayerPrefab, _startPosition, Quaternion.identity);
+        _player.SetActive(false);
         _player.transform.SetParent(transform);
 
         _ghost = Instantiate(GhostPrefab, _startPosition, Quaternion.identity);
+        _ghost.SetActive(false);
         _ghost.transform.SetParent(transform);
 
         _ghostHouseDoors = new GameObject[DOOR_COUNT];
@@ -74,9 +76,6 @@ public class MapManager : SingletonBehaviour<MapManager>
             _ghostHouseDoors[i].SetActive(false);
             _ghostHouseDoors[i].transform.SetParent(transform);
         }
-
-        MapLoad();
-        MapDraw();
     }
 
     private void OnDisable()
@@ -207,10 +206,12 @@ public class MapManager : SingletonBehaviour<MapManager>
                 }
                 if (Map[r, c] == MapTile.PlayerSpawnPoint)
                 {
+                    _player.SetActive(true);
                     _player.transform.Translate(new Vector2(c, r));
                 }
                 if(Map[r, c] == MapTile.GhostSpawnPoint)
                 {
+                    _ghost.SetActive(true);
                     _ghost.transform.Translate(new Vector2(c, r));
                 }
             }
@@ -248,9 +249,7 @@ public class MapManager : SingletonBehaviour<MapManager>
                 break;
         }
 
-
-
-        // 해당 좌표에 벽이나 유령의 집 문이 있는지 여부에 따라 반환
+        // 해당 좌표에 벽이나 유령의 집 문이 있는지(유령은 예외) 여부에 따라 반환
         if (Map[y, x] == MapTile.Wall || Map[y, x] == MapTile.GhostHouseDoor)
         {
             return false;
@@ -267,5 +266,14 @@ public class MapManager : SingletonBehaviour<MapManager>
     {
         _player.transform.position = new Vector2(14, 10);
         _ghost.transform.position = new Vector2(13, 15);
+    }
+
+    /// <summary>
+    /// Stage1을 불러오는 함수
+    /// </summary>
+    public void LoadStage1()
+    {
+        MapLoad();
+        MapDraw();
     }
 }
