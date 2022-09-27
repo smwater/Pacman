@@ -12,7 +12,6 @@ public enum GameState
     Ready,
     Start,
     Playing,
-    Clear,
     GameOver
 }
 
@@ -27,9 +26,7 @@ public class GameManager : SingletonBehaviour<GameManager>
 
     public GameObject RankingUIPrefab;
 
-    public bool IsPause = false;
-
-    private GameState _gameState;
+    private GameState _gameState = GameState.None;
 
     private void Awake()
     {
@@ -43,23 +40,9 @@ public class GameManager : SingletonBehaviour<GameManager>
 
     private void Start()
     {
-        InGameText.gameObject.SetActive(true);
-        StartCoroutine(PrintingText());
         _gameState = GameState.Ready;
-    }
-
-    private void Update()
-    {
-        if(_gameState == GameState.Ready)
-        {
-            IsPause = true;
-            Time.timeScale = 0;
-        }
-        if(_gameState == GameState.Playing)
-        {
-            IsPause = false;
-            Time.timeScale = 1;
-        }
+        InGameText.gameObject.SetActive(true);
+        StartCoroutine(PrintingText(_gameState));
     }
 
     private void OnDisable()
@@ -67,18 +50,13 @@ public class GameManager : SingletonBehaviour<GameManager>
         GameManager.Instance.GameOver.RemoveListener(InGameTextUI);
     }
 
-    private IEnumerator PrintingText()
+    private IEnumerator PrintingText(GameState gameState)
     {
         InGameTextUI(GameState.Ready);
-        yield return new WaitForSecondsRealtime(3);
+        yield return new WaitForSeconds(3);
         InGameTextUI(GameState.Start);
-        yield return new WaitForSecondsRealtime(1);
+        yield return new WaitForSeconds(1);
         InGameTextUI(GameState.Playing);
-    }
-
-    private void ShowRankingUI()
-    {
-        RankingUIPrefab.gameObject.SetActive(true);
     }
 
     private void InGameTextUI(GameState gameState)
@@ -87,23 +65,19 @@ public class GameManager : SingletonBehaviour<GameManager>
         {
             case GameState.Ready:
                 InGameText.text = "Ready";
+                _gameState = GameState.Start;
                 break;
             case GameState.Start:
                 InGameText.text = "Start";
-                _gameState = GameState.Playing;
                 break;
             case GameState.Playing:
                 InGameText.gameObject.SetActive(false);
                 break;
-            case GameState.Clear:
-                InGameText.text = "Clear";
-                InGameText.gameObject.SetActive(true);
-                Invoke("ShowRankingUI", 3);
-                break;
             case GameState.GameOver:
                 InGameText.text = "Game Over";
                 InGameText.gameObject.SetActive(true);
-                Invoke("ShowRankingUI", 3);
+                RankingUIPrefab.gameObject.SetActive(true);
+                Debug.Log($"{RankingUIPrefab.gameObject.activeSelf}");
                 break;
         }
     }

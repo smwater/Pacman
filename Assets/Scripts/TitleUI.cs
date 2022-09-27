@@ -17,7 +17,6 @@ public class TitleUI : MonoBehaviour
     private GameObject _buttons;
     private GameObject _helpButton;
     private bool _isSetTitle;
-    private GameObject _rankingUI;
 
     //ÆË¾÷ Ã¢
     private GameObject _descriptionUI;
@@ -31,7 +30,6 @@ public class TitleUI : MonoBehaviour
         
         _descriptionUI = GameObject.Find("DescriptionUI");
         _creditUI = GameObject.Find("CreditUI");
-        _rankingUI = GameObject.Find("RankingUI");
     }
 
     void Start()
@@ -39,7 +37,7 @@ public class TitleUI : MonoBehaviour
         _buttons.SetActive(false);
         _descriptionUI.SetActive(false);
         _creditUI.SetActive(false);
-        _rankingUI.SetActive(false);
+
         _isSetTitle = false;
     }
 
@@ -102,7 +100,7 @@ public class TitleUI : MonoBehaviour
 
     public void ClickRankingButton()
     {
-        _rankingUI.SetActive(true);
+        SceneManager.LoadScene("Ranking");
     }
 
     public void ClickExitButton()

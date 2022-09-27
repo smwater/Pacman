@@ -1435,10 +1435,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
-    - target: {fileID: 5327572241647737474, guid: 99ba1e50f7a60f5468aea8efdbeadb80, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 5327572241647737503, guid: 99ba1e50f7a60f5468aea8efdbeadb80, type: 3}
       propertyPath: m_Enabled
       value: 1
@@ -1920,10 +1916,6 @@ PrefabInstance:
     - target: {fileID: 6144730668053282571, guid: 71b80f308a6b7214d8e81d60c8eb7abc, type: 3}
       propertyPath: m_Name
       value: Wall
-      objectReference: {fileID: 0}
-    - target: {fileID: 6144730668053282571, guid: 71b80f308a6b7214d8e81d60c8eb7abc, type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 71b80f308a6b7214d8e81d60c8eb7abc, type: 3}
