@@ -38,21 +38,24 @@ public class GhostAI : MonoBehaviour
 
     private void Update()
     {
-        // 방향이 지정되었을 때만 이동
-        if (_directionToggle)
+        if(!GameManager.Instance.IsPause)
         {
-            StartCoroutine(MoveSmoothly());
-            return;
-        }
-
-        // 상태가 변경될 때 한 번만 실행
-        if (State != PrevState)
-        {
-            switch (State)
+            // 방향이 지정되었을 때만 이동
+            if (_directionToggle)
             {
-                case GhostState.Depart: StartCoroutine(Depart()); break;
-                case GhostState.Walk: StartCoroutine(Walk()); break;
-                default: break;
+                StartCoroutine(MoveSmoothly());
+                return;
+            }
+
+            // 상태가 변경될 때 한 번만 실행
+            if (State != PrevState)
+            {
+                switch (State)
+                {
+                    case GhostState.Depart: StartCoroutine(Depart()); break;
+                    case GhostState.Walk: StartCoroutine(Walk()); break;
+                    default: break;
+                }
             }
         }
     }
