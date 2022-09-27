@@ -39,10 +39,14 @@ public class StageScelectManager : MonoBehaviour
         SelectiveQuestions.text = $"Do you want to select that stage?({GetButtonName()})";
     }
 
+    /// <summary>
+    /// Yes버튼 클릭시 게임매니저의 InGameUI를 활성화 시킴
+    /// </summary>
     public void ClickYesButton()
     {
-        gameObject.SetActive(false);
         MapManager.Instance.LoadStage1();
+        GameManager.Instance._isClickYes = true;
+        gameObject.SetActive(false);
     }
 
     public void ClickNoButton()

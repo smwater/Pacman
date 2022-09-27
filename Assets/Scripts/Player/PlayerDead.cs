@@ -38,8 +38,7 @@ public class PlayerDead : MonoBehaviour
     {
         if (_life <= 0)
         {
-            Debug.Log("게임 오버");
-            GameManager.Instance.GameOver.Invoke();
+            GameManager.Instance.GameOver.Invoke(GameState.GameOver);
         }
         else
         {

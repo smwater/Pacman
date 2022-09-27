@@ -22,29 +22,35 @@ public class PlayerMove : MonoBehaviour
 
     private void Update()
     {
-        // 방향이 지정되었을 때만 이동
-        if (_directionToggle)
+        if(!GameManager.Instance.IsPause)
         {
-            StartCoroutine(MoveSmoothly());
-            return;
-        }
-
-        // 입력에 따라 다른 방향을 지정
-        if (_input.GoUp)
-        {
-            DirectionUp();
-        }
-        if (_input.GoDown)
-        {
-            DirectionDown();
-        }
-        if (_input.GoLeft)
-        {
-            DirectionLeft();
-        }
-        if (_input.GoRight)
-        {
-            DirectionRight();
+            // 방향이 지정되었을 때만 이동
+            if (_directionToggle)
+            {
+                StartCoroutine(MoveSmoothly());
+                return;
+            }
+            // 입력에 따라 다른 방향을 지정
+            if (_input.GoUp)
+            {
+                DirectionUp();
+            }
+            if (_input.GoDown)
+            {
+                DirectionDown();
+            }
+            if (_input.GoLeft)
+            {
+                DirectionLeft();
+            }
+            if (_input.GoRight)
+            {
+                DirectionRight();
+            }
+            if (_input.UseSkill)
+            {
+                Debug.Log("스킬은 아직 미구현");
+            }
         }
     }
 

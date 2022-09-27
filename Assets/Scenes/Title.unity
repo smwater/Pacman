@@ -3360,5 +3360,9 @@ PrefabInstance:
       propertyPath: m_Name
       value: RankingUI
       objectReference: {fileID: 0}
+    - target: {fileID: 1355508633392463915, guid: c192a35933d41e24990461f3620b6328, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c192a35933d41e24990461f3620b6328, type: 3}

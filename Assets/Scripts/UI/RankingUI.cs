@@ -7,6 +7,10 @@ using TMPro;
 
 public class RankingUI : MonoBehaviour
 {
+    private void Start()
+    {
+        GetComponent<Transform>().SetParent(GameObject.Find("Canvas").GetComponent<Transform>(), false);
+    }
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Space))
