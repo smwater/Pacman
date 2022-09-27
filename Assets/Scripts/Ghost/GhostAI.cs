@@ -7,10 +7,7 @@ public enum GhostState
 {
     None,
     Depart,  // 출발
-    Walk,   // 돌아다니기
-    Chase,  // 추적
-    Shrink, // 겁먹음
-    Dead    // 사망
+    Walk   // 돌아다니기
 }
 
 public class GhostAI : MonoBehaviour
@@ -18,7 +15,6 @@ public class GhostAI : MonoBehaviour
     public GhostState State;
     public GhostState PrevState = GhostState.None;
     public Direction NowDirection;
-    public Direction PrevDirection = Direction.None;
 
     private const float ERROR_RANGE = 0.01f;
 
@@ -35,8 +31,6 @@ public class GhostAI : MonoBehaviour
     private int _walkCount = 0;
     private int _randomNum = 1;
 
-    private bool _foundPlayer;
-
     private void Awake()
     {
         State = GhostState.Depart;
@@ -51,22 +45,13 @@ public class GhostAI : MonoBehaviour
             return;
         }
 
-        // 출발하지 않고, 현재 상태가 Depart라면 출발
-        if (!_isDepart && State == GhostState.Depart)
-        {
-            StartCoroutine(Depart());
-            return;
-        }
-
         // 상태가 변경될 때 한 번만 실행
         if (State != PrevState)
         {
             switch (State)
             {
+                case GhostState.Depart: StartCoroutine(Depart()); break;
                 case GhostState.Walk: StartCoroutine(Walk()); break;
-                case GhostState.Chase: Chase(); break;
-                case GhostState.Shrink: Shrink(); break;
-                case GhostState.Dead: Dead(); break;
                 default: break;
             }
         }
@@ -91,6 +76,11 @@ public class GhostAI : MonoBehaviour
     /// </summary>
     private IEnumerator Depart()
     {
+        if (_isDepart)
+        {
+            yield break;
+        }
+
         // 막 생성되었을 때에는 오브젝트 풀링을 위한 위치에 있어 현재의 위치를 저장
         _startPosition = transform.position;
 
@@ -113,17 +103,10 @@ public class GhostAI : MonoBehaviour
     }
 
     /// <summary>
-    /// 플레이어를 찾을 때까지 랜덤하게 배회한다.
+    /// 알고리즘을 따라 랜덤하게 배회한다.
     /// </summary>
     private IEnumerator Walk()
     {
-        // 플레이어를 찾으면 Chase 상태로 변환
-        if (_foundPlayer)
-        {
-            PrevState = State;
-            State = GhostState.Chase;
-        }
-
         // 일정 걸음 수 이상이 되면 방향 전환
         if (_walkCount >= _randomNum)
         {
@@ -149,30 +132,6 @@ public class GhostAI : MonoBehaviour
         }
 
         yield return new WaitForSeconds(1);
-    }
-
-    /// <summary>
-    /// 플레이어가 범위에서 벗어나기 전까지 추적한다.
-    /// </summary>
-    private void Chase()
-    {
-        
-    }
-
-    /// <summary>
-    /// 겁먹음 상태. 잡아먹히지 않기 위해 플레이어로부터 멀어진다.
-    /// </summary>
-    private void Shrink()
-    {
-
-    }
-
-    /// <summary>
-    /// 죽은 상태. 눈만 남은 채로 리스폰 지점으로 돌아간다.
-    /// </summary>
-    private void Dead()
-    {
-
     }
 
     /// <summary>
