@@ -4,12 +4,12 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class StageScelectManager : MonoBehaviour
-{
-    public TextMeshProUGUI SelectiveQuestions;
-    
+{   
     private GameObject _selectUI;
+    private Sprite[] sprites;
 
     private void Awake()
     {
@@ -35,8 +35,12 @@ public class StageScelectManager : MonoBehaviour
 
     public void ClickSelectButton()
     {
+        if(GetButtonName() == "Easy")
+        {
+            //_selectUI.GetComponent<Image>().sprite = sprites[0];
+        }
+
         _selectUI.SetActive(true);
-        SelectiveQuestions.text = $"Do you want to select that stage?({GetButtonName()})";
     }
 
     /// <summary>

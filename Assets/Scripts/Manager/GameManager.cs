@@ -29,6 +29,8 @@ public class GameManager : SingletonBehaviour<GameManager>
     private GameObject _rankingUI;
 
     public GameObject InGameUI;
+
+    public InGameUI InGameUIObject;
     
     //∞‘¿”¿Ã ∏ÿ√Ë¥¬¡ˆ
     public bool IsPause = false;
@@ -56,24 +58,17 @@ public class GameManager : SingletonBehaviour<GameManager>
 
     private void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Escape) && _gameState == GameState.Playing)
+        {
+            IsPause = true;
+            Debug.Log($"{_gameState}");
+            Debug.Log($"{IsPause}");
+            InGameUIObject.OnPauseUI();
+        }
+
         if(_isClickYes)
         {
             StartCoroutine(GameManager.Instance.PrintingText());
-        }
-
-        if(Input.GetKeyDown(KeyCode.Escape))
-        {
-            IsPause = true;
-            
-        }
-
-        if (_gameState == GameState.Ready || _gameState == GameState.GameOver || _gameState == GameState.Clear)
-        {
-            IsPause = true;
-        }
-        if (_gameState == GameState.Playing)
-        {
-            IsPause = false;
         }
     }
 
@@ -104,6 +99,7 @@ public class GameManager : SingletonBehaviour<GameManager>
                 InGameText.On();
                 Text.text = "Ready";
                 InGameUI.SetActive(true);
+                IsPause = true;
                 break;
             case GameState.Start:
                 Text.text = "Start";
@@ -112,12 +108,14 @@ public class GameManager : SingletonBehaviour<GameManager>
                 break;
             case GameState.Playing:
                 InGameText.Off();
+                IsPause = false;
                 break;
             case GameState.Clear:
                 Text.text = "Clear";
                 Text.color = Color.yellow;
                 _gameState = GameState.Clear;
                 InGameText.On();
+                IsPause = true;
                 Invoke("ShowRankingUI", 3);
                 break;
             case GameState.GameOver:
@@ -125,6 +123,7 @@ public class GameManager : SingletonBehaviour<GameManager>
                 Text.color = Color.red;
                 _gameState = GameState.GameOver;
                 InGameText.On();
+                IsPause = true;
                 Invoke("ShowRankingUI", 3);
                 break;
         }
@@ -135,4 +134,5 @@ public class GameManager : SingletonBehaviour<GameManager>
         _rankingUI = Instantiate(RankingUIPrefab, Vector3.zero, Quaternion.identity);
         _rankingUI.gameObject.SetActive(true);
     }
+
 }
