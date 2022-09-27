@@ -67,6 +67,7 @@ public class GhostAI : MonoBehaviour
             transform.position = _startPosition;
             _isDepart = false;
             State = GhostState.Depart;
+            PrevState = GhostState.None;
         }
     }
 
