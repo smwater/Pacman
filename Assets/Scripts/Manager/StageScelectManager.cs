@@ -11,7 +11,7 @@ public class StageScelectManager : MonoBehaviour
     private GameObject SelectWindow;
     private bool _selectWindowActive = false;
 
-    private bool _isEasy;
+    private string _isEasy;
 
     private void Awake()
     {
@@ -54,7 +54,7 @@ public class StageScelectManager : MonoBehaviour
     /// </summary>
     public void ClickYesButton()
     {
-        if(_isEasy)
+        if(_isEasy == "Easy")
         {
             MapManager.Instance.LoadStage1();
         }

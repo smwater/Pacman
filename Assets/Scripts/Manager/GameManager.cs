@@ -28,8 +28,11 @@ public class GameManager : SingletonBehaviour<GameManager>
     public GameObject RankingUIPrefab;
     private GameObject _rankingUI;
 
+    //InGameUI오브젝트
     public GameObject InGameUI;
 
+    //InGameUI 스크립트 참조를 위한 오브젝트
+    //InGameUI의 자식으로 받는 조치 필요
     public InGameUI InGameUIObject;
     
     //게임이 멈췄는지
@@ -42,7 +45,6 @@ public class GameManager : SingletonBehaviour<GameManager>
     private void OnEnable()
     {
         RankingUIPrefab.SetActive(false);
-        InGameUI.SetActive(false);
         GameOver.AddListener(InGameTextUI);
     }
 
@@ -61,13 +63,12 @@ public class GameManager : SingletonBehaviour<GameManager>
         if (Input.GetKeyDown(KeyCode.Escape) && _gameState == GameState.Playing)
         {
             IsPause = true;
-            Debug.Log($"{_gameState}");
-            Debug.Log($"{IsPause}");
             InGameUIObject.OnPauseUI();
         }
 
         if(_isClickYes)
         {
+            InGameUI.SetActive(true);
             StartCoroutine(GameManager.Instance.PrintingText());
         }
     }
