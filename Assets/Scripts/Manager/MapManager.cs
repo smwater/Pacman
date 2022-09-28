@@ -446,6 +446,11 @@ public class MapManager : SingletonBehaviour<MapManager>
         {
             _earnedBigCoinCount++;
         }
+
+        if (_placedSmallCoinCount == _earnedSmallCoinCount && _placedBigCoinCount == _earnedBigCoinCount)
+        {
+            GameManager.Instance.GameClear.Invoke(GameState.Clear);
+        }
     }
 
     /// <summary>

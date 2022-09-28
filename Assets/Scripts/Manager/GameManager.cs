@@ -24,6 +24,7 @@ public class GameManager : SingletonBehaviour<GameManager>
     
     public UnityEvent PlayerDead = new UnityEvent();
     public UnityEvent<GameState> GameOver = new UnityEvent<GameState>();
+    public UnityEvent<GameState> GameClear = new UnityEvent<GameState>();
     
     public GameObject RankingUIPrefab;
     private GameObject _rankingUI;
@@ -46,6 +47,7 @@ public class GameManager : SingletonBehaviour<GameManager>
     {
         RankingUIPrefab.SetActive(false);
         GameOver.AddListener(InGameTextUI);
+        GameClear.AddListener(InGameTextUI);
     }
 
     private void Start()
@@ -55,7 +57,8 @@ public class GameManager : SingletonBehaviour<GameManager>
 
     private void OnDisable()
     {
-        GameManager.Instance.GameOver.RemoveListener(InGameTextUI);
+        GameOver.RemoveListener(InGameTextUI);
+        GameClear.RemoveListener(InGameTextUI);
     }
 
     private void Update()
