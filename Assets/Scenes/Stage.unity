@@ -2420,6 +2420,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4436769980842425362, guid: a2ad17eb6a4c4ca4ab8e3fb279f337a7, type: 3}
+      propertyPath: PlayerPrefab
+      value: 
+      objectReference: {fileID: 4202491726378328007, guid: 3a5cbe503e8882d4a82aab37ae0deefb, type: 3}
+    - target: {fileID: 4436769980842425362, guid: a2ad17eb6a4c4ca4ab8e3fb279f337a7, type: 3}
       propertyPath: BigCoinPrefab
       value: 
       objectReference: {fileID: 488878664538775429, guid: d3cb6775c79bdfe42ae6273a7cb87a1e, type: 3}
