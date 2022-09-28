@@ -22,7 +22,7 @@ public class GameManager : SingletonBehaviour<GameManager>
     public TextMeshProUGUI Text;
     public TextController InGameText;
     
-    public UnityEvent PlayerDead;
+    public UnityEvent PlayerDead = new UnityEvent();
     public UnityEvent<GameState> GameOver = new UnityEvent<GameState>();
     
     public GameObject RankingUIPrefab;
@@ -64,7 +64,6 @@ public class GameManager : SingletonBehaviour<GameManager>
         if(Input.GetKeyDown(KeyCode.Escape))
         {
             IsPause = true;
-            
         }
 
         if (_gameState == GameState.Ready || _gameState == GameState.GameOver || _gameState == GameState.Clear)

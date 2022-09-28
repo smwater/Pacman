@@ -408,4 +408,16 @@ public class MapManager : SingletonBehaviour<MapManager>
             _earnedBigCoinCount++;
         }
     }
+
+    /// <summary>
+    /// 코인을 점수로 전환해서 합한 값을 반환한다.
+    /// </summary>
+    /// <returns>얻은 점수의 합</returns>
+    public int GetTotalScore()
+    {
+        int score = _earnedSmallCoinCount * 10;
+        score += _earnedBigCoinCount * 50;
+
+        return score;
+    }
 }
