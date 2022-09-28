@@ -35,6 +35,7 @@ public class InGameUI : MonoBehaviour
         _pauseUI.SetActive(false);
         _earlyWarningUI.SetActive(false);
         GameManager.Instance.IsPause = false;
+        GameManager.Instance._audioSource.Play();
     }
 
     public void ClickOkButton()
