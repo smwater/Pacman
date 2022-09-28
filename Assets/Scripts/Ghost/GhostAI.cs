@@ -90,7 +90,7 @@ public class GhostAI : MonoBehaviour
     /// <param name="direction">나아갈 방향</param>
     private void Move(Direction direction)
     {
-        ChangeDirection(direction);
+        ChangeDirection();
 
         switch (direction)
         {
@@ -115,43 +115,41 @@ public class GhostAI : MonoBehaviour
 
     /// <summary>
     /// Ghost가 맵 밖으로 탈출하는 것을 방지하기 위해
-    /// Ghost가 갈 수 있는 최대 범위에 도달하면 방향을 강제로 전환한다.
+    /// Ghost가 빠져나갈만한 위치에 도달하면 방향을 강제로 전환한다.
     /// </summary>
-    /// <param name="direction">나아갈 방향</param>
-    private void ChangeDirection(Direction direction)
+    private void ChangeDirection()
     {
-        switch (direction)
+        if (transform.position.y == MapManager.MAP_SIZE_ROW - 2 && transform.position.x >= 14 && transform.position.x <= 15)
         {
-            case Direction.Up:
-                if (transform.position.y == MapManager.MAP_SIZE_ROW - 2)
-                {
-                    NowDirection = Direction.Down;
-                    _walkCount = 0;
-                }
-                break;
-            case Direction.Down:
-                if (transform.position.y == 1)
-                {
-                    NowDirection = Direction.Up;
-                    _walkCount = 0;
-                }
-                break;
-            case Direction.Left:
-                if (transform.position.x == 1)
-                {
-                    NowDirection = Direction.Right;
-                    _walkCount = 0;
-                }
-                break;
-            case Direction.Right:
-                if (transform.position.y == MapManager.MAP_SIZE_COLUMN - 2)
-                {
-                    NowDirection = Direction.Left;
-                    _walkCount = 0;
-                }
-                break;
-            default:
-                break;
+            // 랜덤성을 유지하기 위해 빠져나가지 못할 방향 중에서 지정한다.
+            NowDirection = (Direction)Random.Range(2, 5);
+            _walkCount = 0;
+        }
+
+        if (transform.position.y == 1 && transform.position.x >= 14 && transform.position.x <= 15)
+        {
+            do
+            {
+                NowDirection = (Direction)Random.Range(1, 5);
+            } while (NowDirection == Direction.Down);
+
+            _walkCount = 0;
+        }
+
+        if (transform.position.x == 1 && transform.position.y >= 14 && transform.position.y <= 15)
+        {
+            do
+            {
+                NowDirection = (Direction)Random.Range(1, 5);
+            } while (NowDirection == Direction.Left);
+
+            _walkCount = 0;
+        }
+
+        if (transform.position.y == MapManager.MAP_SIZE_COLUMN - 2 && transform.position.y >= 14 && transform.position.y <= 15)
+        {
+            NowDirection = (Direction)Random.Range(1, 4);
+            _walkCount = 0;
         }
     }
 
