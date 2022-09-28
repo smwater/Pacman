@@ -46,6 +46,13 @@ public class GhostAI : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
+            // 플레이어가 무적 상태라면 무시
+            PlayerState playerState = collision.GetComponent<PlayerMove>().State;
+            if (playerState == PlayerState.Invincibility)
+            {
+                return;
+            }
+
             _destination = _startPosition;
             transform.position = _startPosition;
             NowDirection = (Direction)Random.Range(1, 5);

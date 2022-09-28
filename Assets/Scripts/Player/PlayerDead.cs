@@ -16,7 +16,8 @@ public class PlayerDead : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Ghost"))
+        // 일반 상태일 때만 라이프 감소
+        if (_move.State == PlayerState.Usually && collision.CompareTag("Ghost"))
         {
             DecreaseLife();
         }
