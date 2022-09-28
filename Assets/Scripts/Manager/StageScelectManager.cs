@@ -4,21 +4,20 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class StageScelectManager : MonoBehaviour
-{
-    public TextMeshProUGUI SelectiveQuestions;
-    
-    private GameObject _selectUI;
+{   
+    private GameObject SelectWindow;
+    private bool _selectWindowActive = false;
+
+    private string _isEasy;
 
     private void Awake()
     {
-        _selectUI = GameObject.Find("SelectUI");
-    }
-
-    private void Start()
-    {
-        _selectUI.SetActive(false);
+        SelectWindow = GameObject.Find("SelectWindows");
+        SelectWindow.transform.GetChild(0).gameObject.SetActive(false);
+        SelectWindow.transform.GetChild(1).gameObject.SetActive(false);
     }
 
     public void ClickBackButton()
@@ -30,13 +29,24 @@ public class StageScelectManager : MonoBehaviour
     private string GetButtonName()
     {
         string buttonName = EventSystem.current.currentSelectedGameObject.name;
+        _isEasy = buttonName;
         return buttonName;
     }
 
     public void ClickSelectButton()
     {
-        _selectUI.SetActive(true);
-        SelectiveQuestions.text = $"Do you want to select that stage?({GetButtonName()})";
+        if(!_selectWindowActive)
+        {
+            if(GetButtonName() == "Easy")
+            {
+                SelectWindow.transform.GetChild(0).gameObject.SetActive(true);
+                    _selectWindowActive = true;
+            }
+            else
+            {
+                SelectWindow.transform.GetChild(1).gameObject.SetActive(true);
+            }
+        }
     }
 
     /// <summary>
@@ -44,14 +54,25 @@ public class StageScelectManager : MonoBehaviour
     /// </summary>
     public void ClickYesButton()
     {
-        MapManager.Instance.LoadStage1();
+        if(_isEasy == "Easy")
+        {
+            MapManager.Instance.LoadStage1();
+        }
+        else
+        {
+            //MapManager.Instance.LoadStage2();
+        }
+
         GameManager.Instance._isClickYes = true;
         gameObject.SetActive(false);
     }
 
     public void ClickNoButton()
     {
-        _selectUI.SetActive(false);
+        SelectWindow.transform.GetChild(0).gameObject.SetActive(false);
+        SelectWindow.transform.GetChild(1).gameObject.SetActive(false);
+
+        _selectWindowActive = false;
     }
 
 }
