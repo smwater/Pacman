@@ -25,10 +25,12 @@ public class PlayerMove : MonoBehaviour
     private bool _usedSkill = false;
 
     private PlayerInput _input;
+    private Animator _animator;
 
     private void Awake()
     {
         _input = GetComponent<PlayerInput>();
+        _animator = GetComponent<Animator>();
     }
 
     private void Update()
@@ -84,7 +86,13 @@ public class PlayerMove : MonoBehaviour
             return;
         }
 
-        // 애니메이션 세팅도 여기서 할 예정
+        // 애니메이션 재생 설정
+        _animator.SetBool(PlayerAnimID.Up, true);
+        if (State == PlayerState.Invincibility)
+        {
+            _animator.SetBool(PlayerAnimID.InvincibilityUp, true);
+        }
+
         // 방향에 따라 다른 좌표를 지정
         _destination = transform.position + new Vector3(0f, _moveSpeed, 0f);
         _directionToggle = true;
@@ -103,6 +111,12 @@ public class PlayerMove : MonoBehaviour
         if (!MapManager.Instance.CheckDirectionToGo(transform.position, Direction.Down))
         {
             return;
+        }
+
+        _animator.SetBool(PlayerAnimID.Down, true);
+        if (State == PlayerState.Invincibility)
+        {
+            _animator.SetBool(PlayerAnimID.InvincibilityDown, true);
         }
 
         _destination = transform.position + new Vector3(0f, -_moveSpeed, 0f);
@@ -124,6 +138,12 @@ public class PlayerMove : MonoBehaviour
             return;
         }
 
+        _animator.SetBool(PlayerAnimID.Left, true);
+        if (State == PlayerState.Invincibility)
+        {
+            _animator.SetBool(PlayerAnimID.InvincibilityLeft, true);
+        }
+
         _destination = transform.position + new Vector3(-_moveSpeed, 0f, 0f);
         _directionToggle = true;
     }
@@ -141,6 +161,12 @@ public class PlayerMove : MonoBehaviour
         if (!MapManager.Instance.CheckDirectionToGo(transform.position, Direction.Right))
         {
             return;
+        }
+
+        _animator.SetBool(PlayerAnimID.Right, true);
+        if (State == PlayerState.Invincibility)
+        {
+            _animator.SetBool(PlayerAnimID.InvincibilityRight, true);
         }
 
         _destination = transform.position + new Vector3(_moveSpeed, 0f, 0f);
@@ -162,6 +188,19 @@ public class PlayerMove : MonoBehaviour
             // 이를 방지하기 위해, 지정 좌표에 가까워지면 Player의 위치를 지정 좌표로 이동 시키는 과정이 필요하다.
             transform.position = new Vector3(Mathf.RoundToInt(_destination.x), Mathf.RoundToInt(_destination.y));
             _directionToggle = false;
+
+            // 애니메이션도 리셋
+            _animator.SetBool(PlayerAnimID.Up, false);
+            _animator.SetBool(PlayerAnimID.Down, false);
+            _animator.SetBool(PlayerAnimID.Left, false);
+            _animator.SetBool(PlayerAnimID.Right, false);
+            if (State == PlayerState.Invincibility)
+            {
+                _animator.SetBool(PlayerAnimID.InvincibilityUp, false);
+                _animator.SetBool(PlayerAnimID.InvincibilityDown, false);
+                _animator.SetBool(PlayerAnimID.InvincibilityLeft, false);
+                _animator.SetBool(PlayerAnimID.InvincibilityRight, false);
+            }
         }
         yield return null;
     }
@@ -178,9 +217,12 @@ public class PlayerMove : MonoBehaviour
     /// </summary>
     private IEnumerator OnInvincibility()
     {
+        _animator.SetBool(PlayerAnimID.UseSkill, true);
+
         State = PlayerState.Invincibility;
         yield return new WaitForSeconds(2);
         State = PlayerState.Usually;
         _usedSkill = true;
+        _animator.SetBool(PlayerAnimID.UseSkill, false);
     }
 }
