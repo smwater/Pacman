@@ -11,12 +11,13 @@ public class StageScelectManager : MonoBehaviour
     private GameObject SelectWindow;
     private bool _selectWindowActive = false;
 
+    private bool _isEasy;
+
     private void Awake()
     {
         SelectWindow = GameObject.Find("SelectWindows");
         SelectWindow.transform.GetChild(0).gameObject.SetActive(false);
         SelectWindow.transform.GetChild(1).gameObject.SetActive(false);
-        SelectWindow.transform.GetChild(2).gameObject.SetActive(false);
     }
 
     public void ClickBackButton()
@@ -28,6 +29,7 @@ public class StageScelectManager : MonoBehaviour
     private string GetButtonName()
     {
         string buttonName = EventSystem.current.currentSelectedGameObject.name;
+        _isEasy = buttonName;
         return buttonName;
     }
 
@@ -40,24 +42,27 @@ public class StageScelectManager : MonoBehaviour
                 SelectWindow.transform.GetChild(0).gameObject.SetActive(true);
                     _selectWindowActive = true;
             }
-            else if(GetButtonName() == "Normal")
-            {
-                SelectWindow.transform.GetChild(1).gameObject.SetActive(true);
-            }
             else
             {
-                SelectWindow.transform.GetChild(2).gameObject.SetActive(true);
+                SelectWindow.transform.GetChild(1).gameObject.SetActive(true);
             }
         }
     }
 
     /// <summary>
     /// Yes버튼 클릭시 게임매니저의 InGameUI를 활성화 시킴
-    /// 다른 스테이지 로드하는 코드 추가 필요
     /// </summary>
     public void ClickYesButton()
     {
-        MapManager.Instance.LoadStage1();
+        if(_isEasy)
+        {
+            MapManager.Instance.LoadStage1();
+        }
+        else
+        {
+            //MapManager.Instance.LoadStage2();
+        }
+
         GameManager.Instance._isClickYes = true;
         gameObject.SetActive(false);
     }
@@ -66,7 +71,7 @@ public class StageScelectManager : MonoBehaviour
     {
         SelectWindow.transform.GetChild(0).gameObject.SetActive(false);
         SelectWindow.transform.GetChild(1).gameObject.SetActive(false);
-        SelectWindow.transform.GetChild(2).gameObject.SetActive(false);
+
         _selectWindowActive = false;
     }
 
