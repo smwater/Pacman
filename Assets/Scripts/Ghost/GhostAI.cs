@@ -40,8 +40,7 @@ public class GhostAI : MonoBehaviour
         }
     }
 
-    // 유령이 플레이어를 잡았을 경우, 가려던 방향과 현재 좌표를 리셋하고
-    // Walk 상태부터 다시 실행
+    // 유령이 플레이어를 잡았을 경우, 가려던 방향과 현재 좌표를 리셋하고 다시 실행
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Player"))
