@@ -2,8 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum PlayerState
+{
+    Usually,
+    Invincibility,
+    Dead
+}
+
 public class PlayerMove : MonoBehaviour
 {
+    public PlayerState State;
+
     private const float ERROR_RANGE = 0.01f;
 
     private bool _directionToggle;

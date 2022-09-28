@@ -27,6 +27,8 @@ public class PlayerDead : MonoBehaviour
     /// </summary>
     private void Dead()
     {
+        --_life;
+        _move.State = PlayerState.Dead;
         _move.OffDirectionToggle();
         GameManager.Instance.PlayerDead.Invoke();
     }
@@ -42,7 +44,6 @@ public class PlayerDead : MonoBehaviour
         }
         else
         {
-            --_life;
             Dead();
         }
     }

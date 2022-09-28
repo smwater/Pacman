@@ -378,6 +378,8 @@ public class MapManager : SingletonBehaviour<MapManager>
     public void BackToStartPosition()
     {
         _player.transform.position = new Vector2(14, 10);
+        _player.GetComponent<PlayerMove>().State = PlayerState.Usually;
+
         _ghosts[0].GetComponent<GhostAI>().SetStartPosition(9, 4);
         _ghosts[1].GetComponent<GhostAI>().SetStartPosition(20, 4);
         _ghosts[2].GetComponent<GhostAI>().SetStartPosition(3, 26);
