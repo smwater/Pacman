@@ -22,7 +22,7 @@ public class GameManager : SingletonBehaviour<GameManager>
     public TextMeshProUGUI Text;
     public TextController InGameText;
     
-    public UnityEvent PlayerDead;
+    public UnityEvent PlayerDead = new UnityEvent();
     public UnityEvent<GameState> GameOver = new UnityEvent<GameState>();
     
     public GameObject RankingUIPrefab;

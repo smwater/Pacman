@@ -2,8 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum PlayerState
+{
+    Usually,
+    Invincibility,
+    Dead
+}
+
 public class PlayerMove : MonoBehaviour
 {
+    public PlayerState State;
+
     private const float ERROR_RANGE = 0.01f;
 
     private bool _directionToggle;
@@ -12,6 +21,8 @@ public class PlayerMove : MonoBehaviour
     [SerializeField]
     private float _duration = 0.1f;
     private Vector3 _destination;
+
+    private bool _usedSkill = false;
 
     private PlayerInput _input;
 
@@ -47,9 +58,9 @@ public class PlayerMove : MonoBehaviour
             {
                 DirectionRight();
             }
-            if (_input.UseSkill)
+            if (!_usedSkill && _input.UseSkill)
             {
-                Debug.Log("스킬은 아직 미구현");
+                StartCoroutine(OnInvincibility());
             }
         }
     }
@@ -160,5 +171,16 @@ public class PlayerMove : MonoBehaviour
     public void OffDirectionToggle()
     {
         _directionToggle = false;
+    }
+
+    /// <summary>
+    /// 2초간 무적 상태로 전환해주는 코루틴 함수
+    /// </summary>
+    private IEnumerator OnInvincibility()
+    {
+        State = PlayerState.Invincibility;
+        yield return new WaitForSeconds(2);
+        State = PlayerState.Usually;
+        _usedSkill = true;
     }
 }

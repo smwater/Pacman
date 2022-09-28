@@ -9,7 +9,6 @@ public enum MapTile
     Wall,
     PlayerSpawnPoint,
     GhostSpawnPoint,
-    GhostHouseDoor,
     SmallCoin,
     BigCoin
 }
@@ -33,18 +32,15 @@ public class MapManager : SingletonBehaviour<MapManager>
     private GameObject _player;
 
     public GameObject GhostPrefab;
-    private GameObject _ghost;
-
-    public GameObject GhostHouseDoorPrefab;
-    private const int DOOR_COUNT = 2;
-    private GameObject[] _ghostHouseDoors;
+    private readonly int _ghostMaxCount = 4;
+    private GameObject[] _ghosts;
 
     public GameObject WallPrefab;
-    private readonly int _wallMaxCount = MAP_SIZE_ROW * MAP_SIZE_COLUMN;
+    private readonly int _wallMaxCount = 500;
     private GameObject[] _walls;
 
     public GameObject SmallCoinPrefab;
-    private readonly int _smallCoinMaxCount = MAP_SIZE_ROW * MAP_SIZE_COLUMN;
+    private readonly int _smallCoinMaxCount = 600;
     private GameObject[] _smallCoins;
 
     public GameObject BigCoinPrefab;
@@ -84,16 +80,12 @@ public class MapManager : SingletonBehaviour<MapManager>
         _player.SetActive(false);
         _player.transform.SetParent(transform);
 
-        _ghost = Instantiate(GhostPrefab, _startPosition, Quaternion.identity);
-        _ghost.SetActive(false);
-        _ghost.transform.SetParent(transform);
-
-        _ghostHouseDoors = new GameObject[DOOR_COUNT];
-        for (int i = 0; i < DOOR_COUNT; i++)
+        _ghosts = new GameObject[_ghostMaxCount];
+        for (int i = 0; i < _ghostMaxCount; i++)
         {
-            _ghostHouseDoors[i] = Instantiate(GhostHouseDoorPrefab, _startPosition, Quaternion.identity);
-            _ghostHouseDoors[i].SetActive(false);
-            _ghostHouseDoors[i].transform.SetParent(transform);
+            _ghosts[i] = Instantiate(GhostPrefab, _startPosition, Quaternion.identity);
+            _ghosts[i].SetActive(false);
+            _ghosts[i].transform.SetParent(transform);
         }
 
         _smallCoins = new GameObject[_smallCoinMaxCount];
@@ -129,6 +121,7 @@ public class MapManager : SingletonBehaviour<MapManager>
         {
             for (int c = 0; c < MAP_SIZE_COLUMN; c++)
             {
+                // 벽 설치
                 if ((r == 0 || r == MAP_SIZE_ROW - 1) && c != 14 && c != 15)
                 {
                     Map[r, c] = MapTile.Wall;
@@ -165,11 +158,11 @@ public class MapManager : SingletonBehaviour<MapManager>
                 {
                     Map[r, c] = MapTile.Wall;
                 }
-                if (c == 14 && r == 10)
+                if (r == 13 && ((c >= 0 && c <= 6) || (c >= 23 && c <= MAP_SIZE_COLUMN - 1)))
                 {
-                    Map[r, c] = MapTile.PlayerSpawnPoint;
+                    Map[r, c] = MapTile.Wall;
                 }
-                if (r == 13 && ((c >= 0 && c <= 6) || (c >= 11 && c <= 18) || (c >= 23 && c <= MAP_SIZE_COLUMN - 1)))
+                if (r == 13 && ((c >= 11 && c <= 13) || (c >= 16 && c <= 18)))
                 {
                     Map[r, c] = MapTile.Wall;
                 }
@@ -181,17 +174,9 @@ public class MapManager : SingletonBehaviour<MapManager>
                 {
                     Map[r, c] = MapTile.Wall;
                 }
-                if (c == 13 && r == 15)
-                {
-                    Map[r, c] = MapTile.GhostSpawnPoint;
-                }
                 if (r == 17 && ((c >= 11 && c <= 13) || (c >= 16 && c <= 18)))
                 {
                     Map[r, c] = MapTile.Wall;
-                }
-                if (r == 17 && c >= 14 && c <= 15)
-                {
-                    Map[r, c] = MapTile.GhostHouseDoor;
                 }
                 if (r == 18 && ((c >= 3 && c <= 7) || (c >= 22 && c <= 26)))
                 {
@@ -209,9 +194,126 @@ public class MapManager : SingletonBehaviour<MapManager>
                 {
                     Map[r, c] = MapTile.Wall;
                 }
+                // 유령 소환 지점
+                if (c == 9 && r == 4)
+                {
+                    Map[r, c] = MapTile.GhostSpawnPoint;
+                }
+                if (c == 20 && r == 4)
+                {
+                    Map[r, c] = MapTile.GhostSpawnPoint;
+                }
+                if (c == 3 && r == 26)
+                {
+                    Map[r, c] = MapTile.GhostSpawnPoint;
+                }
+                if (c == 26 && r == 26)
+                {
+                    Map[r, c] = MapTile.GhostSpawnPoint;
+                }
+                // 플레이어 소환 지점
+                if (c == 14 && r == 10)
+                {
+                    Map[r, c] = MapTile.PlayerSpawnPoint;
+                }
+                // 큰 코인
+                if (r == 1 && (c == 1 || c == 28))
+                {
+                    Map[r, c] = MapTile.BigCoin;
+                }
+                if (r == 2 && (c == 5 || c == 24))
+                {
+                    Map[r, c] = MapTile.BigCoin;
+                }
+                if (r == 6 && (c == 12 || c == 17))
+                {
+                    Map[r, c] = MapTile.BigCoin;
+                }
+                if (r == 10 && (c == 4 || c == 25))
+                {
+                    Map[r, c] = MapTile.BigCoin;
+                }
+                if (r == 12 && (c == 1 || c == 28))
+                {
+                    Map[r, c] = MapTile.BigCoin;
+                }
+                if (r == 13 && (c == 7 || c == 22))
+                {
+                    Map[r, c] = MapTile.BigCoin;
+                }
+                if (r == 14 && c >= 14 && c <= 15)
+                {
+                    Map[r, c] = MapTile.BigCoin;
+                }
+                if (r == 15 && c >= 13 && c <= 16)
+                {
+                    Map[r, c] = MapTile.BigCoin;
+                }
+                if (r == 16 && c >= 14 && c <= 15)
+                {
+                    Map[r, c] = MapTile.BigCoin;
+                }
+                if (r == 17 && (c == 7 || c == 22))
+                {
+                    Map[r, c] = MapTile.BigCoin;
+                }
+                if (r == 20 && (c == 4 || c == 25))
+                {
+                    Map[r, c] = MapTile.BigCoin;
+                }
+                if (r == 23 && (c == 13 || c == 16))
+                {
+                    Map[r, c] = MapTile.BigCoin;
+                }
+                if (r == 25 && (c == 4 || c == 25))
+                {
+                    Map[r, c] = MapTile.BigCoin;
+                }
+                if (r == 28 && (c == 1 || c == 28))
+                {
+                    Map[r, c] = MapTile.BigCoin;
+                }
+                // 나머지는 작은 코인으로 채움
                 if (Map[r, c] == MapTile.None)
                 {
                     Map[r, c] = MapTile.SmallCoin;
+                }
+                // 별도로 빈 공간이 존재하므로 설정
+                if (r >= 0 && r <= 1 && c >= 14 && c <= 15)
+                {
+                    Map[r, c] = MapTile.None;
+                }
+                if (r >= 14 && r <= 15 && c >= 0 && c <= 2)
+                {
+                    Map[r, c] = MapTile.None;
+                }
+                if (r == 13 && c >= 14 && c <= 15)
+                {
+                    Map[r, c] = MapTile.None;
+                }
+                if (r == 14 && ((c >= 12 && c <= 13) || (c >= 16 && c <= 17)))
+                {
+                    Map[r, c] = MapTile.None;
+                }
+                if (r == 15 && (c == 12 || c == 17))
+                {
+                    Map[r, c] = MapTile.None;
+                }
+                if (r == 16 && ((c >= 12 && c <= 13) || (c >= 16 && c <= 17)))
+                {
+                    Map[r, c] = MapTile.None;
+                }
+                if (r == 17 && c >= 14 && c <= 15)
+                {
+                    Map[r, c] = MapTile.None;
+                }
+                if (r >= 14 && r <= 15 && c >= 27 && c <= MAP_SIZE_COLUMN - 1)
+                {
+                    Map[r, c] = MapTile.None;
+                }
+                if (r >= 28 && r <= MAP_SIZE_ROW - 1 && c >= 14 && c <= 15)
+                {
+                    Map[r, c] = MapTile.None;
                 }
             }
         }
@@ -223,7 +325,7 @@ public class MapManager : SingletonBehaviour<MapManager>
     private void MapDraw()
     {
         int usedWallCount = 0;
-        int usedDoorCount = 0;
+        int usedGhostCount = 0;
 
         for (int r = 0; r < MAP_SIZE_ROW; r++)
         {
@@ -236,13 +338,6 @@ public class MapManager : SingletonBehaviour<MapManager>
                     usedWallCount++;
                     continue;
                 }
-                if (Map[r, c] == MapTile.GhostHouseDoor)
-                {
-                    _ghostHouseDoors[usedDoorCount].SetActive(true);
-                    _ghostHouseDoors[usedDoorCount].transform.Translate(new Vector2(c, r));
-                    usedDoorCount++;
-                    continue;
-                }
                 if (Map[r, c] == MapTile.SmallCoin)
                 {
                     _smallCoins[_placedSmallCoinCount].SetActive(true);
@@ -250,15 +345,24 @@ public class MapManager : SingletonBehaviour<MapManager>
                     _placedSmallCoinCount++;
                     continue;
                 }
+                if (Map[r, c] == MapTile.BigCoin)
+                {
+                    _bigCoins[_placedBigCoinCount].SetActive(true);
+                    _bigCoins[_placedBigCoinCount].transform.Translate(new Vector2(c, r));
+                    _placedBigCoinCount++;
+                    continue;
+                }
+                if (Map[r, c] == MapTile.GhostSpawnPoint)
+                {
+                    _ghosts[usedGhostCount].SetActive(true);
+                    _ghosts[usedGhostCount].transform.Translate(new Vector2(c, r));
+                    usedGhostCount++;
+                    continue;
+                }
                 if (Map[r, c] == MapTile.PlayerSpawnPoint)
                 {
                     _player.SetActive(true);
                     _player.transform.Translate(new Vector2(c, r));
-                }
-                if (Map[r, c] == MapTile.GhostSpawnPoint)
-                {
-                    _ghost.SetActive(true);
-                    _ghost.transform.Translate(new Vector2(c, r));
                 }
             }
         }
@@ -296,7 +400,7 @@ public class MapManager : SingletonBehaviour<MapManager>
         }
 
         // 해당 좌표에 벽이나 유령의 집 문이 있는지(유령은 예외) 여부에 따라 반환
-        if (Map[y, x] == MapTile.Wall || Map[y, x] == MapTile.GhostHouseDoor)
+        if (Map[y, x] == MapTile.Wall)
         {
             return false;
         }
@@ -311,7 +415,12 @@ public class MapManager : SingletonBehaviour<MapManager>
     public void BackToStartPosition()
     {
         _player.transform.position = new Vector2(14, 10);
-        _ghost.transform.position = new Vector2(13, 15);
+        _player.GetComponent<PlayerMove>().State = PlayerState.Usually;
+
+        _ghosts[0].GetComponent<GhostAI>().SetStartPosition(9, 4);
+        _ghosts[1].GetComponent<GhostAI>().SetStartPosition(20, 4);
+        _ghosts[2].GetComponent<GhostAI>().SetStartPosition(3, 26);
+        _ghosts[3].GetComponent<GhostAI>().SetStartPosition(26, 26);
     }
 
     /// <summary>
@@ -337,5 +446,17 @@ public class MapManager : SingletonBehaviour<MapManager>
         {
             _earnedBigCoinCount++;
         }
+    }
+
+    /// <summary>
+    /// 코인을 점수로 전환해서 합한 값을 반환한다.
+    /// </summary>
+    /// <returns>얻은 점수의 합</returns>
+    public int GetTotalScore()
+    {
+        int score = _earnedSmallCoinCount * 10;
+        score += _earnedBigCoinCount * 50;
+
+        return score;
     }
 }

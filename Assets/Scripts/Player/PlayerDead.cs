@@ -16,7 +16,8 @@ public class PlayerDead : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Ghost"))
+        // 일반 상태일 때만 라이프 감소
+        if (_move.State == PlayerState.Usually && collision.CompareTag("Ghost"))
         {
             DecreaseLife();
         }
@@ -27,6 +28,8 @@ public class PlayerDead : MonoBehaviour
     /// </summary>
     private void Dead()
     {
+        --_life;
+        _move.State = PlayerState.Dead;
         _move.OffDirectionToggle();
         GameManager.Instance.PlayerDead.Invoke();
     }
@@ -42,7 +45,6 @@ public class PlayerDead : MonoBehaviour
         }
         else
         {
-            --_life;
             Dead();
         }
     }
