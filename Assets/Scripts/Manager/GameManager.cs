@@ -25,6 +25,7 @@ public class GameManager : SingletonBehaviour<GameManager>
     public UnityEvent PlayerDead = new UnityEvent();
     public UnityEvent<GameState> GameOver = new UnityEvent<GameState>();
     public UnityEvent<GameState> GameClear = new UnityEvent<GameState>();
+    public UnityEvent GameStart = new UnityEvent();
     
     public GameObject RankingUIPrefab;
     private GameObject _rankingUI;
@@ -43,11 +44,16 @@ public class GameManager : SingletonBehaviour<GameManager>
 
     private GameState _gameState;
 
+    public AudioSource _audioSource;
+    public AudioClip _clickSound;
+    public AudioClip _titleSound;
+
     private void OnEnable()
     {
         RankingUIPrefab.SetActive(false);
         GameOver.AddListener(InGameTextUI);
         GameClear.AddListener(InGameTextUI);
+        _audioSource = GetComponent<AudioSource>();
     }
 
     private void Start()
@@ -67,6 +73,7 @@ public class GameManager : SingletonBehaviour<GameManager>
         {
             IsPause = true;
             InGameUIObject.OnPauseUI();
+            _audioSource.Stop();
         }
 
         if(_isClickYes)
@@ -104,6 +111,7 @@ public class GameManager : SingletonBehaviour<GameManager>
                 Text.text = "Ready";
                 InGameUI.SetActive(true);
                 IsPause = true;
+                PlayTitleSound();
                 break;
             case GameState.Start:
                 Text.text = "Start";
@@ -120,6 +128,7 @@ public class GameManager : SingletonBehaviour<GameManager>
                 _gameState = GameState.Clear;
                 InGameText.On();
                 IsPause = true;
+                _audioSource.Stop();
                 Invoke("ShowRankingUI", 3);
                 break;
             case GameState.GameOver:
@@ -128,6 +137,7 @@ public class GameManager : SingletonBehaviour<GameManager>
                 _gameState = GameState.GameOver;
                 InGameText.On();
                 IsPause = true;
+                _audioSource.Stop();
                 Invoke("ShowRankingUI", 3);
                 break;
         }
@@ -138,5 +148,17 @@ public class GameManager : SingletonBehaviour<GameManager>
         _rankingUI = Instantiate(RankingUIPrefab, Vector3.zero, Quaternion.identity);
         _rankingUI.gameObject.SetActive(true);
     }
+    public void OnClick()
+    {
+        _audioSource.clip = _clickSound;
+        _audioSource.loop = false;
+        _audioSource.Play();
+    }
 
+    private void PlayTitleSound()
+    {
+        _audioSource.clip = _titleSound;
+        _audioSource.loop = true;
+        _audioSource.Play();
+    }
 }

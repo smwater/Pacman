@@ -26,6 +26,8 @@ public class TitleUI : MonoBehaviour
     private GameObject _descriptionUI;
     private GameObject _creditUI;
 
+    private AudioSource _audioSource;
+
     private void Awake()
     {
         _titleImage = GameObject.Find("TitileImage");
@@ -36,6 +38,7 @@ public class TitleUI : MonoBehaviour
         _creditUI = GameObject.Find("CreditUI");
 
         _rankingUI = GameObject.Find("RankingUI");
+        _audioSource = GetComponent<AudioSource>();
     }
 
     void Start()
@@ -112,6 +115,11 @@ public class TitleUI : MonoBehaviour
     public void ClickExitButton()
     {
         Application.Quit();
+    }
+
+    public void OnClick()
+    {
+        _audioSource.Play();
     }
 }
 
