@@ -278,6 +278,43 @@ public class MapManager : SingletonBehaviour<MapManager>
                 {
                     Map[r, c] = MapTile.SmallCoin;
                 }
+                // 별도로 빈 공간이 존재하므로 설정
+                if (r >= 0 && r <= 1 && c >= 14 && c <= 15)
+                {
+                    Map[r, c] = MapTile.None;
+                }
+                if (r >= 14 && r <= 15 && c >= 0 && c <= 2)
+                {
+                    Map[r, c] = MapTile.None;
+                }
+                if (r == 13 && c >= 14 && c <= 15)
+                {
+                    Map[r, c] = MapTile.None;
+                }
+                if (r == 14 && ((c >= 12 && c <= 13) || (c >= 16 && c <= 17)))
+                {
+                    Map[r, c] = MapTile.None;
+                }
+                if (r == 15 && (c == 12 || c == 17))
+                {
+                    Map[r, c] = MapTile.None;
+                }
+                if (r == 16 && ((c >= 12 && c <= 13) || (c >= 16 && c <= 17)))
+                {
+                    Map[r, c] = MapTile.None;
+                }
+                if (r == 17 && c >= 14 && c <= 15)
+                {
+                    Map[r, c] = MapTile.None;
+                }
+                if (r >= 14 && r <= 15 && c >= 27 && c <= MAP_SIZE_COLUMN - 1)
+                {
+                    Map[r, c] = MapTile.None;
+                }
+                if (r >= 28 && r <= MAP_SIZE_ROW - 1 && c >= 14 && c <= 15)
+                {
+                    Map[r, c] = MapTile.None;
+                }
             }
         }
     }
